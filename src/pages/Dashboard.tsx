@@ -40,7 +40,9 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleLogout = async () => {
+    localStorage.removeItem('hajri_demo_user');
     await supabase.auth.signOut();
+    window.dispatchEvent(new Event('auth-changed'));
   };
 
   const handleQrScanSuccess = (workerId: string) => {

@@ -24,7 +24,10 @@ interface SyncContextProps {
 const SyncContext = createContext<SyncContextProps | undefined>(undefined);
 
 export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(() => {
+    const isDemo = !!localStorage.getItem('hajri_demo_user');
+    return navigator.onLine && !isDemo;
+  });
   const [isSyncing, setIsSyncing] = useState(false);
   const [queue, setQueue] = useState<SyncOperation[]>([]);
 
@@ -39,15 +42,19 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
 
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const checkConnection = () => {
+      const isDemo = !!localStorage.getItem('hajri_demo_user');
+      setIsOnline(navigator.onLine && !isDemo);
+    };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', checkConnection);
+    window.addEventListener('offline', checkConnection);
+    window.addEventListener('auth-changed', checkConnection);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', checkConnection);
+      window.removeEventListener('offline', checkConnection);
+      window.removeEventListener('auth-changed', checkConnection);
     };
   }, []);
 

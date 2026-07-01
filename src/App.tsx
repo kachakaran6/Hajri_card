@@ -98,6 +98,7 @@ function App() {
     };
     localStorage.setItem('hajri_demo_user', JSON.stringify(dummyUser));
     setSession({ user: dummyUser });
+    window.dispatchEvent(new Event('auth-changed'));
   };
 
   // Sign out helper
@@ -105,6 +106,7 @@ function App() {
     localStorage.removeItem('hajri_demo_user');
     supabase.auth.signOut();
     setSession(null);
+    window.dispatchEvent(new Event('auth-changed'));
   };
 
   if (isLoading) {
