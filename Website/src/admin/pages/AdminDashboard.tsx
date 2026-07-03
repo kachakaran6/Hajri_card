@@ -68,10 +68,10 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div>
       {/* Page header */}
-      <div className="page-header">
+      {/* <div className="page-header">
         <h1 className="page-title">Dashboard</h1>
         <p className="page-subtitle">{format(new Date(), 'EEEE, d MMMM yyyy')} — Platform overview</p>
-      </div>
+      </div> */}
 
       {/* Stats */}
       <div className="stats-grid">

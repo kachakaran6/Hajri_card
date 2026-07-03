@@ -32,12 +32,12 @@ export const ContractorsPage: React.FC = () => {
 
   return (
     <div>
-      <div className="page-header" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+      {/* <div className="page-header" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 className="page-title">Contractors</h1>
           <p className="page-subtitle">{contractors.data?.length ?? 0} registered contractors</p>
         </div>
-      </div>
+      </div> */}
 
       {/* Summary cards */}
       <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>

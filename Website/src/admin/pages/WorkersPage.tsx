@@ -40,10 +40,10 @@ export const WorkersPage: React.FC = () => {
 
   return (
     <div>
-      <div className="page-header">
+      {/* <div className="page-header">
         <h1 className="page-title">Workers</h1>
         <p className="page-subtitle">{workers.data?.length ?? 0} workers across all contractors</p>
-      </div>
+      </div> */}
 
       <div className="card">
         <div className="card-header" style={{ flexWrap: 'wrap', gap: 8 }}>

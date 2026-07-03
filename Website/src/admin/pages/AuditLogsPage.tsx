@@ -22,13 +22,17 @@ export const AuditLogsPage: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <div>
           <h1 className="text-lg font-semibold">Audit Log</h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             Recent platform activity — last 7 days
           </p>
         </div>
+      </div> */}
+
+      {/* Summary badges */}
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => activity.refetch()}
           disabled={activity.isFetching}
@@ -37,10 +41,6 @@ export const AuditLogsPage: React.FC = () => {
           <RefreshCw className={`w-3 h-3 ${activity.isFetching ? 'animate-spin' : ''}`} />
           Refresh
         </button>
-      </div>
-
-      {/* Summary badges */}
-      <div className="flex flex-wrap gap-2">
         {(['attendance', 'worker', 'transaction'] as const).map(type => {
           const count = (activity.data || []).filter(a => a.type === type).length;
           const cfg = typeConfig[type];
