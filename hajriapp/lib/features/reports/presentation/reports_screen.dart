@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
@@ -33,14 +34,19 @@ class ReportsScreen extends HookConsumerWidget {
     useEffect(() {
       Future<void> fetchSummaries() async {
         try {
-          final response = await supabase.Supabase.instance.client.from('monthly_summary').select()
+          final response = await supabase.Supabase.instance.client
+              .from('monthly_summary')
+              .select()
               .eq('month', selectedMonth.value)
               .eq('year', selectedYear.value);
           if (context.mounted) {
-            activeSummariesState.value = response.map((e) => MonthlySummary.fromJson(e)).toList();
+            activeSummariesState.value = response
+                .map((e) => MonthlySummary.fromJson(e))
+                .toList();
           }
         } catch (_) {}
       }
+
       fetchSummaries();
       return null;
     }, [selectedMonth.value, selectedYear.value]);
@@ -54,7 +60,9 @@ class ReportsScreen extends HookConsumerWidget {
         return;
       }
 
-      final monthYearStr = DateFormat('MMMM yyyy').format(DateTime(selectedYear.value, selectedMonth.value));
+      final monthYearStr = DateFormat(
+        'MMMM yyyy',
+      ).format(DateTime(selectedYear.value, selectedMonth.value));
       final projectName = activeProject?.name ?? 'All Projects';
 
       final pdfBytes = await PdfGenerator.generateMonthlyReport(
@@ -72,154 +80,201 @@ class ReportsScreen extends HookConsumerWidget {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.reports),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Filters Section Card
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(
-                  color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.go('/');
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.reports)),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Filters Section Card
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                    color: isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      'Report Period',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        // Month Dropdown
-                        Expanded(
-                          child: DropdownButtonFormField<int>(
-                            initialValue: selectedMonth.value,
-                            decoration: const InputDecoration(labelText: 'Month'),
-                            items: List.generate(12, (index) => index + 1).map((m) {
-                              return DropdownMenuItem(
-                                value: m,
-                                child: Text(DateFormat('MMMM').format(DateTime(2026, m))),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              if (val != null) {
-                                selectedMonth.value = val;
-                              }
-                            },
-                          ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
+                        'Report Period',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
-                        const SizedBox(width: 12),
-                        // Year Dropdown
-                        Expanded(
-                          child: DropdownButtonFormField<int>(
-                            initialValue: selectedYear.value,
-                            decoration: const InputDecoration(labelText: 'Year'),
-                            items: [2025, 2026, 2027].map((y) {
-                              return DropdownMenuItem(
-                                value: y,
-                                child: Text('$y'),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              if (val != null) {
-                                selectedYear.value = val;
-                              }
-                            },
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          // Month Dropdown
+                          Expanded(
+                            child: DropdownButtonFormField<int>(
+                              initialValue: selectedMonth.value,
+                              decoration: const InputDecoration(
+                                labelText: 'Month',
+                              ),
+                              items: List.generate(12, (index) => index + 1)
+                                  .map((m) {
+                                    return DropdownMenuItem(
+                                      value: m,
+                                      child: Text(
+                                        DateFormat(
+                                          'MMMM',
+                                        ).format(DateTime(2026, m)),
+                                      ),
+                                    );
+                                  })
+                                  .toList(),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  selectedMonth.value = val;
+                                }
+                              },
+                            ),
                           ),
+                          const SizedBox(width: 12),
+                          // Year Dropdown
+                          Expanded(
+                            child: DropdownButtonFormField<int>(
+                              initialValue: selectedYear.value,
+                              decoration: const InputDecoration(
+                                labelText: 'Year',
+                              ),
+                              items: [2025, 2026, 2027].map((y) {
+                                return DropdownMenuItem(
+                                  value: y,
+                                  child: Text('$y'),
+                                );
+                              }).toList(),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  selectedYear.value = val;
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Generate Button
+                      ElevatedButton.icon(
+                        icon: const Icon(
+                          Icons.picture_as_pdf,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Generate Button
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
-                      label: const Text('Generate PDF Summary'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      onPressed: handleGeneratePdf,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Summaries list
-            Text(
-              'Labour Summaries (${activeSummaries.length})',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-
-            Expanded(
-              child: activeSummaries.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No summaries generated for this period. Mark attendance or payments first!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: isDark ? Colors.white38 : Colors.black38),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: activeSummaries.length,
-                      itemBuilder: (context, index) {
-                        final summary = activeSummaries[index];
-                        final worker = workers.firstWhere(
-                          (w) => w.id == summary.workerId,
-                          orElse: () => Worker(id: '', contractorId: '', fullName: 'Unknown', dailyWage: 0, joiningDate: ''),
-                        );
-
-                        return Card(
+                        label: const Text('Generate PDF Summary'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
-                            side: BorderSide(
-                              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-                            ),
                           ),
-                          child: ListTile(
-                            title: Text(worker.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(
-                              'Present: ${summary.presentDays.toStringAsFixed(0)}d • OT: ${summary.overtimeHours.toStringAsFixed(0)}h',
+                        ),
+                        onPressed: handleGeneratePdf,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Summaries list
+              Text(
+                'Labour Summaries (${activeSummaries.length})',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+
+              Expanded(
+                child: activeSummaries.isEmpty
+                    ? Center(
+                        child: Text(
+                          'No summaries generated for this period. Mark attendance or payments first!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: isDark ? Colors.white38 : Colors.black38,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: activeSummaries.length,
+                        itemBuilder: (context, index) {
+                          final summary = activeSummaries[index];
+                          final worker = workers.firstWhere(
+                            (w) => w.id == summary.workerId,
+                            orElse: () => Worker(
+                              id: '',
+                              contractorId: '',
+                              fullName: 'Unknown',
+                              dailyWage: 0,
+                              joiningDate: '',
                             ),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Due: ₹${summary.balance.toStringAsFixed(0)}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: summary.balance >= 0 ? AppColors.success : AppColors.error,
+                          );
+
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              side: BorderSide(
+                                color: isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.lightBorder,
+                              ),
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                worker.fullName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'Present: ${summary.presentDays.toStringAsFixed(0)}d • OT: ${summary.overtimeHours.toStringAsFixed(0)}h',
+                              ),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Due: ₹${summary.balance.toStringAsFixed(0)}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: summary.balance >= 0
+                                          ? AppColors.success
+                                          : AppColors.error,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Gross: ₹${summary.grossAmount.toStringAsFixed(0)}',
-                                  style: const TextStyle(fontSize: 11, color: Colors.grey),
-                                ),
-                              ],
+                                  Text(
+                                    'Gross: ₹${summary.grossAmount.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

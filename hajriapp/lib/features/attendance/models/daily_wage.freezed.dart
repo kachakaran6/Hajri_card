@@ -12,7 +12,8 @@ part of 'daily_wage.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 DailyWage _$DailyWageFromJson(Map<String, dynamic> json) {
   return _DailyWage.fromJson(json);
@@ -51,18 +52,19 @@ abstract class $DailyWageCopyWith<$Res> {
   factory $DailyWageCopyWith(DailyWage value, $Res Function(DailyWage) then) =
       _$DailyWageCopyWithImpl<$Res, DailyWage>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'attendance_id') String attendanceId,
-      @JsonKey(name: 'daily_rate') double dailyRate,
-      double bonus,
-      double deduction,
-      @JsonKey(name: 'overtime_amount') double overtimeAmount,
-      @JsonKey(name: 'net_amount') double netAmount,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'attendance_id') String attendanceId,
+    @JsonKey(name: 'daily_rate') double dailyRate,
+    double bonus,
+    double deduction,
+    @JsonKey(name: 'overtime_amount') double overtimeAmount,
+    @JsonKey(name: 'net_amount') double netAmount,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -90,52 +92,55 @@ class _$DailyWageCopyWithImpl<$Res, $Val extends DailyWage>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      attendanceId: null == attendanceId
-          ? _value.attendanceId
-          : attendanceId // ignore: cast_nullable_to_non_nullable
-              as String,
-      dailyRate: null == dailyRate
-          ? _value.dailyRate
-          : dailyRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      bonus: null == bonus
-          ? _value.bonus
-          : bonus // ignore: cast_nullable_to_non_nullable
-              as double,
-      deduction: null == deduction
-          ? _value.deduction
-          : deduction // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeAmount: null == overtimeAmount
-          ? _value.overtimeAmount
-          : overtimeAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      netAmount: null == netAmount
-          ? _value.netAmount
-          : netAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            workerId: null == workerId
+                ? _value.workerId
+                : workerId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            attendanceId: null == attendanceId
+                ? _value.attendanceId
+                : attendanceId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dailyRate: null == dailyRate
+                ? _value.dailyRate
+                : dailyRate // ignore: cast_nullable_to_non_nullable
+                      as double,
+            bonus: null == bonus
+                ? _value.bonus
+                : bonus // ignore: cast_nullable_to_non_nullable
+                      as double,
+            deduction: null == deduction
+                ? _value.deduction
+                : deduction // ignore: cast_nullable_to_non_nullable
+                      as double,
+            overtimeAmount: null == overtimeAmount
+                ? _value.overtimeAmount
+                : overtimeAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            netAmount: null == netAmount
+                ? _value.netAmount
+                : netAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -143,22 +148,24 @@ class _$DailyWageCopyWithImpl<$Res, $Val extends DailyWage>
 abstract class _$$DailyWageImplCopyWith<$Res>
     implements $DailyWageCopyWith<$Res> {
   factory _$$DailyWageImplCopyWith(
-          _$DailyWageImpl value, $Res Function(_$DailyWageImpl) then) =
-      __$$DailyWageImplCopyWithImpl<$Res>;
+    _$DailyWageImpl value,
+    $Res Function(_$DailyWageImpl) then,
+  ) = __$$DailyWageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'attendance_id') String attendanceId,
-      @JsonKey(name: 'daily_rate') double dailyRate,
-      double bonus,
-      double deduction,
-      @JsonKey(name: 'overtime_amount') double overtimeAmount,
-      @JsonKey(name: 'net_amount') double netAmount,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'attendance_id') String attendanceId,
+    @JsonKey(name: 'daily_rate') double dailyRate,
+    double bonus,
+    double deduction,
+    @JsonKey(name: 'overtime_amount') double overtimeAmount,
+    @JsonKey(name: 'net_amount') double netAmount,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -166,8 +173,9 @@ class __$$DailyWageImplCopyWithImpl<$Res>
     extends _$DailyWageCopyWithImpl<$Res, _$DailyWageImpl>
     implements _$$DailyWageImplCopyWith<$Res> {
   __$$DailyWageImplCopyWithImpl(
-      _$DailyWageImpl _value, $Res Function(_$DailyWageImpl) _then)
-      : super(_value, _then);
+    _$DailyWageImpl _value,
+    $Res Function(_$DailyWageImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -184,70 +192,73 @@ class __$$DailyWageImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$DailyWageImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      attendanceId: null == attendanceId
-          ? _value.attendanceId
-          : attendanceId // ignore: cast_nullable_to_non_nullable
-              as String,
-      dailyRate: null == dailyRate
-          ? _value.dailyRate
-          : dailyRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      bonus: null == bonus
-          ? _value.bonus
-          : bonus // ignore: cast_nullable_to_non_nullable
-              as double,
-      deduction: null == deduction
-          ? _value.deduction
-          : deduction // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeAmount: null == overtimeAmount
-          ? _value.overtimeAmount
-          : overtimeAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      netAmount: null == netAmount
-          ? _value.netAmount
-          : netAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$DailyWageImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        workerId: null == workerId
+            ? _value.workerId
+            : workerId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        attendanceId: null == attendanceId
+            ? _value.attendanceId
+            : attendanceId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dailyRate: null == dailyRate
+            ? _value.dailyRate
+            : dailyRate // ignore: cast_nullable_to_non_nullable
+                  as double,
+        bonus: null == bonus
+            ? _value.bonus
+            : bonus // ignore: cast_nullable_to_non_nullable
+                  as double,
+        deduction: null == deduction
+            ? _value.deduction
+            : deduction // ignore: cast_nullable_to_non_nullable
+                  as double,
+        overtimeAmount: null == overtimeAmount
+            ? _value.overtimeAmount
+            : overtimeAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        netAmount: null == netAmount
+            ? _value.netAmount
+            : netAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$DailyWageImpl implements _DailyWage {
-  const _$DailyWageImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      @JsonKey(name: 'worker_id') required this.workerId,
-      @JsonKey(name: 'attendance_id') required this.attendanceId,
-      @JsonKey(name: 'daily_rate') this.dailyRate = 0.0,
-      this.bonus = 0.0,
-      this.deduction = 0.0,
-      @JsonKey(name: 'overtime_amount') this.overtimeAmount = 0.0,
-      @JsonKey(name: 'net_amount') this.netAmount = 0.0,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$DailyWageImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    @JsonKey(name: 'worker_id') required this.workerId,
+    @JsonKey(name: 'attendance_id') required this.attendanceId,
+    @JsonKey(name: 'daily_rate') this.dailyRate = 0.0,
+    this.bonus = 0.0,
+    this.deduction = 0.0,
+    @JsonKey(name: 'overtime_amount') this.overtimeAmount = 0.0,
+    @JsonKey(name: 'net_amount') this.netAmount = 0.0,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$DailyWageImpl.fromJson(Map<String, dynamic> json) =>
       _$$DailyWageImplFromJson(json);
@@ -320,18 +331,19 @@ class _$DailyWageImpl implements _DailyWage {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      contractorId,
-      workerId,
-      attendanceId,
-      dailyRate,
-      bonus,
-      deduction,
-      overtimeAmount,
-      netAmount,
-      createdAt,
-      updatedAt);
+    runtimeType,
+    id,
+    contractorId,
+    workerId,
+    attendanceId,
+    dailyRate,
+    bonus,
+    deduction,
+    overtimeAmount,
+    netAmount,
+    createdAt,
+    updatedAt,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -341,25 +353,24 @@ class _$DailyWageImpl implements _DailyWage {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DailyWageImplToJson(
-      this,
-    );
+    return _$$DailyWageImplToJson(this);
   }
 }
 
 abstract class _DailyWage implements DailyWage {
-  const factory _DailyWage(
-      {required final String id,
-      @JsonKey(name: 'contractor_id') required final String contractorId,
-      @JsonKey(name: 'worker_id') required final String workerId,
-      @JsonKey(name: 'attendance_id') required final String attendanceId,
-      @JsonKey(name: 'daily_rate') final double dailyRate,
-      final double bonus,
-      final double deduction,
-      @JsonKey(name: 'overtime_amount') final double overtimeAmount,
-      @JsonKey(name: 'net_amount') final double netAmount,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at') final String? updatedAt}) = _$DailyWageImpl;
+  const factory _DailyWage({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    @JsonKey(name: 'worker_id') required final String workerId,
+    @JsonKey(name: 'attendance_id') required final String attendanceId,
+    @JsonKey(name: 'daily_rate') final double dailyRate,
+    final double bonus,
+    final double deduction,
+    @JsonKey(name: 'overtime_amount') final double overtimeAmount,
+    @JsonKey(name: 'net_amount') final double netAmount,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$DailyWageImpl;
 
   factory _DailyWage.fromJson(Map<String, dynamic> json) =
       _$DailyWageImpl.fromJson;

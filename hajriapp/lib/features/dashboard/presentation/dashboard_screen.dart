@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,132 +25,179 @@ class DashboardScreen extends HookConsumerWidget {
     final projects = ref.watch(projectsStreamProvider);
     final attendance = ref.watch(attendanceStreamProvider(activeProject?.id));
 
-    final presentCount = attendance.where((a) => a.status == 'Present' || a.status == 'Half Day' || a.status == 'Overtime').length;
+    final presentCount = attendance
+        .where(
+          (a) =>
+              a.status == 'Present' ||
+              a.status == 'Half Day' ||
+              a.status == 'Overtime',
+        )
+        .length;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appName),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Welcome header
-              Text(
-                '${AppLocalizations.of(context)!.goodMorning},',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                profile?.fullName ?? 'Contractor',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 24),
+    final lastBackPressTime = useState<DateTime?>(null);
 
-              // Highlight metrics
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildMetricCard(
-                      context: context,
-                      title: "Today's Attendance",
-                      value: '$presentCount / ${workers.length}',
-                      icon: Icons.how_to_reg,
-                      color: AppColors.primary,
-                      isDark: isDark,
-                      onTap: () => context.go('/attendance'),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final now = DateTime.now();
+        if (lastBackPressTime.value == null ||
+            now.difference(lastBackPressTime.value!) >
+                const Duration(seconds: 2)) {
+          lastBackPressTime.value = now;
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('બહાર નીકળવા માટે ફરીથી પાછળ દબાવો'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          return;
+        }
+        SystemNavigator.pop();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.appName),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications_none),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Welcome header
+                Text(
+                  '${AppLocalizations.of(context)!.goodMorning},',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  profile?.fullName ?? 'Contractor',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Highlight metrics
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildMetricCard(
+                        context: context,
+                        title: "Today's Attendance",
+                        value: '$presentCount / ${workers.length}',
+                        icon: Icons.how_to_reg,
+                        color: AppColors.primary,
+                        isDark: isDark,
+                        onTap: () => context.go('/attendance'),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildMetricCard(
+                        context: context,
+                        title: 'Active Projects',
+                        value: '${projects.length}',
+                        icon: Icons.business_center,
+                        color: AppColors.warning,
+                        isDark: isDark,
+                        onTap: () => context.go('/projects'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildMetricCard(
+                        context: context,
+                        title: 'Total Enrolled',
+                        value: '${workers.length} Workers',
+                        icon: Icons.people,
+                        color: AppColors.success,
+                        isDark: isDark,
+                        onTap: () => context.go('/workers'),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildMetricCard(
+                        context: context,
+                        title: 'Generate Reports',
+                        value: 'View Ledger',
+                        icon: Icons.analytics,
+                        color: AppColors.info,
+                        isDark: isDark,
+                        onTap: () => context.go('/reports'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
+
+                // Active Project context
+                if (activeProject != null) ...[
+                  Text(
+                    'Current Active Project',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildMetricCard(
-                      context: context,
-                      title: 'Active Projects',
-                      value: '${projects.length}',
-                      icon: Icons.business_center,
-                      color: AppColors.warning,
-                      isDark: isDark,
+                  const SizedBox(height: 12),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                        color: isDark
+                            ? AppColors.darkBorder
+                            : AppColors.lightBorder,
+                      ),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      leading: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withAlpha(30),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.domain,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      title: Text(
+                        activeProject.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      subtitle: Text(
+                        activeProject.location ?? 'No location specified',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () => context.go('/projects'),
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildMetricCard(
-                      context: context,
-                      title: 'Total Enrolled',
-                      value: '${workers.length} Workers',
-                      icon: Icons.people,
-                      color: AppColors.success,
-                      isDark: isDark,
-                      onTap: () => context.go('/workers'),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildMetricCard(
-                      context: context,
-                      title: 'Generate Reports',
-                      value: 'View Ledger',
-                      icon: Icons.analytics,
-                      color: AppColors.info,
-                      isDark: isDark,
-                      onTap: () => context.go('/reports'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-
-              // Active Project context
-              if (activeProject != null) ...[
-                Text(
-                  'Current Active Project',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(
-                      color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-                    ),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    leading: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withAlpha(30),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.domain, color: AppColors.primary),
-                    ),
-                    title: Text(
-                      activeProject.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    subtitle: Text(
-                      activeProject.location ?? 'No location specified',
-                      style: const TextStyle(fontSize: 13),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () => context.go('/projects'),
-                  ),
-                ),
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -193,12 +242,16 @@ class DashboardScreen extends HookConsumerWidget {
               const SizedBox(height: 16),
               Text(
                 value,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
               Text(
                 title,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
             ],
           ),

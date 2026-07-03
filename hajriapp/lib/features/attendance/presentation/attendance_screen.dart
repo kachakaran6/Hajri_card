@@ -27,10 +27,12 @@ class AttendanceScreen extends HookConsumerWidget {
     final selectedDate = DateTime.parse(selectedDateStr);
 
     final workers = ref.watch(workersStreamProvider);
-    final attendanceList = ref.watch(attendanceStreamProvider(activeProject?.id));
+    final attendanceList = ref.watch(
+      attendanceStreamProvider(activeProject?.id),
+    );
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     // Multi-selection state
     final selectedWorkers = useState<List<String>>([]);
     final isBulkMode = useState(false);
@@ -38,10 +40,18 @@ class AttendanceScreen extends HookConsumerWidget {
     // Keep track of last action for Undo
     final lastAction = useState<Map<String, dynamic>?>(null);
 
-    void setAttendance(Worker worker, String status, {double workingHours = 8.0, double overtimeHours = 0.0, double bonus = 0.0, double deduction = 0.0, String? remarks}) async {
+    void setAttendance(
+      Worker worker,
+      String status, {
+      double workingHours = 8.0,
+      double overtimeHours = 0.0,
+      double bonus = 0.0,
+      double deduction = 0.0,
+      String? remarks,
+    }) async {
       final messenger = ScaffoldMessenger.of(context);
       final cancelText = AppLocalizations.of(context)!.cancel;
-      
+
       final existing = attendanceList.firstWhere(
         (a) => a.workerId == worker.id,
         orElse: () => Attendance(
@@ -56,13 +66,20 @@ class AttendanceScreen extends HookConsumerWidget {
 
       final oldStatus = existing.status;
       final oldOt = existing.overtimeHours;
-      final wageData = await Supabase.instance.client.from('daily_wages').select().eq('attendance_id', existing.id).maybeSingle();
+      final wageData = await Supabase.instance.client
+          .from('daily_wages')
+          .select()
+          .eq('attendance_id', existing.id)
+          .maybeSingle();
       final oldWage = wageData != null ? DailyWage.fromJson(wageData) : null;
 
       // Save undo state
       lastAction.value = {
         'worker': worker,
-        'attendance': existing.copyWith(status: oldStatus, overtimeHours: oldOt),
+        'attendance': existing.copyWith(
+          status: oldStatus,
+          overtimeHours: oldOt,
+        ),
         'bonus': oldWage?.bonus ?? 0.0,
         'deduction': oldWage?.deduction ?? 0.0,
       };
@@ -77,7 +94,9 @@ class AttendanceScreen extends HookConsumerWidget {
         remarks: remarks,
       );
 
-      await ref.read(attendanceRepositoryProvider).saveAttendance(updated, bonus: bonus, deduction: deduction);
+      await ref
+          .read(attendanceRepositoryProvider)
+          .saveAttendance(updated, bonus: bonus, deduction: deduction);
 
       messenger.clearSnackBars();
       messenger.showSnackBar(
@@ -92,7 +111,9 @@ class AttendanceScreen extends HookConsumerWidget {
                 final undo = lastAction.value!['attendance'] as Attendance;
                 final b = lastAction.value!['bonus'] as double;
                 final d = lastAction.value!['deduction'] as double;
-                await ref.read(attendanceRepositoryProvider).saveAttendance(undo, bonus: b, deduction: d);
+                await ref
+                    .read(attendanceRepositoryProvider)
+                    .saveAttendance(undo, bonus: b, deduction: d);
               }
             },
           ),
@@ -124,10 +145,12 @@ class AttendanceScreen extends HookConsumerWidget {
           await ref.read(attendanceRepositoryProvider).saveAttendance(updated);
         }
       }
-      
+
       messenger.showSnackBar(
         SnackBar(
-          content: Text('Marked ${selectedWorkers.value.length} workers as $status'),
+          content: Text(
+            'Marked ${selectedWorkers.value.length} workers as $status',
+          ),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -137,14 +160,21 @@ class AttendanceScreen extends HookConsumerWidget {
 
     void changeDate(int days) {
       final newDate = selectedDate.add(Duration(days: days));
-      ref.read(selectedAttendanceDateProvider.notifier).state =
-          newDate.toIso8601String().substring(0, 10);
+      ref.read(selectedAttendanceDateProvider.notifier).state = newDate
+          .toIso8601String()
+          .substring(0, 10);
     }
 
     void showWageAdjustmentDialog(Worker worker, Attendance attendance) async {
-      final wageData = await Supabase.instance.client.from('daily_wages').select().eq('attendance_id', attendance.id).maybeSingle();
-      final existingWage = wageData != null ? DailyWage.fromJson(wageData) : null;
-      
+      final wageData = await Supabase.instance.client
+          .from('daily_wages')
+          .select()
+          .eq('attendance_id', attendance.id)
+          .maybeSingle();
+      final existingWage = wageData != null
+          ? DailyWage.fromJson(wageData)
+          : null;
+
       if (!context.mounted) return;
       showDialog(
         context: context,
@@ -177,7 +207,7 @@ class AttendanceScreen extends HookConsumerWidget {
                 isBulkMode.value = false;
                 selectedWorkers.value = [];
               },
-            )
+            ),
         ],
       ),
       body: Column(
@@ -187,7 +217,9 @@ class AttendanceScreen extends HookConsumerWidget {
             onHorizontalDragEnd: (details) {
               if (details.primaryVelocity! > 300) {
                 changeDate(-1);
-              } else if (details.primaryVelocity! < -300 && selectedDateStr != DateTime.now().toIso8601String().substring(0, 10)) {
+              } else if (details.primaryVelocity! < -300 &&
+                  selectedDateStr !=
+                      DateTime.now().toIso8601String().substring(0, 10)) {
                 changeDate(1);
               }
             },
@@ -197,7 +229,9 @@ class AttendanceScreen extends HookConsumerWidget {
                 color: isDark ? AppColors.darkSurface : Colors.white,
                 border: Border(
                   bottom: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                    color: isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
                     width: 1,
                   ),
                 ),
@@ -218,24 +252,37 @@ class AttendanceScreen extends HookConsumerWidget {
                         lastDate: DateTime.now().add(const Duration(days: 365)),
                       );
                       if (picked != null) {
-                        ref.read(selectedAttendanceDateProvider.notifier).state =
-                            picked.toIso8601String().substring(0, 10);
+                        ref
+                            .read(selectedAttendanceDateProvider.notifier)
+                            .state = picked.toIso8601String().substring(
+                          0,
+                          10,
+                        );
                       }
                     },
                     child: Row(
                       children: [
-                        const Icon(Icons.calendar_today_outlined, size: 16, color: AppColors.primary),
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           DateFormat('dd MMM yyyy').format(selectedDate),
-                          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios, size: 18),
-                    onPressed: selectedDateStr == DateTime.now().toIso8601String().substring(0, 10)
+                    onPressed:
+                        selectedDateStr ==
+                            DateTime.now().toIso8601String().substring(0, 10)
                         ? null
                         : () => changeDate(1),
                   ),
@@ -247,9 +294,15 @@ class AttendanceScreen extends HookConsumerWidget {
           // Project Selection Pill
           if (activeProject != null)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(20),
@@ -258,11 +311,19 @@ class AttendanceScreen extends HookConsumerWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.business_center, size: 16, color: AppColors.primary),
+                    const Icon(
+                      Icons.business_center,
+                      size: 16,
+                      color: AppColors.primary,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       '${AppLocalizations.of(context)!.projectName}: ${activeProject.name}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.primary),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ],
                 ),
@@ -285,12 +346,18 @@ class AttendanceScreen extends HookConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.success, foregroundColor: Colors.white),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.success,
+                          foregroundColor: Colors.white,
+                        ),
                         onPressed: () => handleBulkAttendance('Present'),
                         child: Text(AppLocalizations.of(context)!.present),
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.error,
+                          foregroundColor: Colors.white,
+                        ),
                         onPressed: () => handleBulkAttendance('Absent'),
                         child: Text(AppLocalizations.of(context)!.absent),
                       ),
@@ -303,7 +370,9 @@ class AttendanceScreen extends HookConsumerWidget {
           // Workers List with Quick Status Buttons
           Expanded(
             child: workers.isEmpty
-                ? Center(child: Text(AppLocalizations.of(context)!.emptyLabourList))
+                ? Center(
+                    child: Text(AppLocalizations.of(context)!.emptyLabourList),
+                  )
                 : ListView.builder(
                     itemCount: workers.length,
                     padding: const EdgeInsets.only(bottom: 24),
@@ -321,17 +390,23 @@ class AttendanceScreen extends HookConsumerWidget {
                         ),
                       );
 
-                      final isSelected = selectedWorkers.value.contains(worker.id);
+                      final isSelected = selectedWorkers.value.contains(
+                        worker.id,
+                      );
 
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 6,
+                        ),
                         child: Slidable(
                           key: ValueKey(worker.id),
                           startActionPane: ActionPane(
                             motion: const StretchMotion(),
                             children: [
                               SlidableAction(
-                                onPressed: (_) => setAttendance(worker, 'Present'),
+                                onPressed: (_) =>
+                                    setAttendance(worker, 'Present'),
                                 backgroundColor: AppColors.success,
                                 foregroundColor: Colors.white,
                                 icon: Icons.check,
@@ -344,7 +419,8 @@ class AttendanceScreen extends HookConsumerWidget {
                             motion: const StretchMotion(),
                             children: [
                               SlidableAction(
-                                onPressed: (_) => setAttendance(worker, 'Absent'),
+                                onPressed: (_) =>
+                                    setAttendance(worker, 'Absent'),
                                 backgroundColor: AppColors.error,
                                 foregroundColor: Colors.white,
                                 icon: Icons.close,
@@ -361,19 +437,24 @@ class AttendanceScreen extends HookConsumerWidget {
                                 color: isSelected
                                     ? AppColors.primary
                                     : isDark
-                                        ? AppColors.darkBorder
-                                        : AppColors.lightBorder,
+                                    ? AppColors.darkBorder
+                                    : AppColors.lightBorder,
                                 width: isSelected ? 2 : 1,
                               ),
                             ),
                             child: InkWell(
                               onLongPress: () {
                                 isBulkMode.value = true;
-                                selectedWorkers.value = [...selectedWorkers.value, worker.id];
+                                selectedWorkers.value = [
+                                  ...selectedWorkers.value,
+                                  worker.id,
+                                ];
                               },
                               onTap: () {
                                 if (isBulkMode.value) {
-                                  final updated = List<String>.from(selectedWorkers.value);
+                                  final updated = List<String>.from(
+                                    selectedWorkers.value,
+                                  );
                                   if (isSelected) {
                                     updated.remove(worker.id);
                                   } else {
@@ -390,7 +471,8 @@ class AttendanceScreen extends HookConsumerWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Row(
                                       children: [
@@ -398,7 +480,9 @@ class AttendanceScreen extends HookConsumerWidget {
                                           Checkbox(
                                             value: isSelected,
                                             onChanged: (val) {
-                                              final updated = List<String>.from(selectedWorkers.value);
+                                              final updated = List<String>.from(
+                                                selectedWorkers.value,
+                                              );
                                               if (val == true) {
                                                 updated.add(worker.id);
                                               } else {
@@ -414,40 +498,62 @@ class AttendanceScreen extends HookConsumerWidget {
                                         ],
                                         // Avatar placeholder
                                         CircleAvatar(
-                                          backgroundColor: AppColors.primary.withAlpha(30),
+                                          backgroundColor: AppColors.primary
+                                              .withAlpha(30),
                                           child: Text(
-                                            worker.fullName.substring(0, 1).toUpperCase(),
-                                            style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                                            worker.fullName
+                                                .substring(0, 1)
+                                                .toUpperCase(),
+                                            style: const TextStyle(
+                                              color: AppColors.primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 worker.fullName,
-                                                style: Theme.of(context).textTheme.titleMedium,
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.titleMedium,
                                               ),
                                               const SizedBox(height: 2),
                                               Text(
                                                 'Wage: ₹${worker.dailyWage.toStringAsFixed(0)}',
-                                                style: Theme.of(context).textTheme.bodyMedium,
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.bodyMedium,
                                               ),
                                             ],
                                           ),
                                         ),
                                         // Status Badge
                                         Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 6,
+                                          ),
                                           decoration: BoxDecoration(
-                                            color: AppColors.getStatusBg(attendance.status),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: AppColors.getStatusBg(
+                                              attendance.status,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                           child: Text(
-                                            context.translate(attendance.status.toLowerCase()),
+                                            context.translate(
+                                              attendance.status.toLowerCase(),
+                                            ),
                                             style: TextStyle(
-                                              color: AppColors.getStatusColor(attendance.status),
+                                              color: AppColors.getStatusColor(
+                                                attendance.status,
+                                              ),
                                               fontWeight: FontWeight.bold,
                                               fontSize: 12,
                                             ),
@@ -461,68 +567,195 @@ class AttendanceScreen extends HookConsumerWidget {
                                         children: [
                                           Expanded(
                                             child: InkWell(
-                                              onTap: () => setAttendance(worker, 'Present'),
-                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () => setAttendance(
+                                                worker,
+                                                'Present',
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: attendance.status == 'Present' ? AppColors.success.withAlpha(40) : Colors.transparent,
-                                                  border: Border.all(color: attendance.status == 'Present' ? AppColors.success : (isDark ? AppColors.darkBorder : AppColors.lightBorder)),
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  color:
+                                                      attendance.status ==
+                                                          'Present'
+                                                      ? AppColors.success
+                                                            .withAlpha(40)
+                                                      : Colors.transparent,
+                                                  border: Border.all(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Present'
+                                                        ? AppColors.success
+                                                        : (isDark
+                                                              ? AppColors
+                                                                    .darkBorder
+                                                              : AppColors
+                                                                    .lightBorder),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
                                                 alignment: Alignment.center,
-                                                child: Text('P', style: TextStyle(color: attendance.status == 'Present' ? AppColors.success : (isDark ? Colors.white70 : Colors.black87), fontWeight: FontWeight.bold, fontSize: 16)),
+                                                child: Text(
+                                                  'P',
+                                                  style: TextStyle(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Present'
+                                                        ? AppColors.success
+                                                        : (isDark
+                                                              ? Colors.white70
+                                                              : Colors.black87),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                           Expanded(
                                             child: InkWell(
-                                              onTap: () => setAttendance(worker, 'Absent'),
-                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () => setAttendance(
+                                                worker,
+                                                'Absent',
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: attendance.status == 'Absent' ? AppColors.error.withAlpha(40) : Colors.transparent,
-                                                  border: Border.all(color: attendance.status == 'Absent' ? AppColors.error : (isDark ? AppColors.darkBorder : AppColors.lightBorder)),
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  color:
+                                                      attendance.status ==
+                                                          'Absent'
+                                                      ? AppColors.error
+                                                            .withAlpha(40)
+                                                      : Colors.transparent,
+                                                  border: Border.all(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Absent'
+                                                        ? AppColors.error
+                                                        : (isDark
+                                                              ? AppColors
+                                                                    .darkBorder
+                                                              : AppColors
+                                                                    .lightBorder),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
                                                 alignment: Alignment.center,
-                                                child: Text('A', style: TextStyle(color: attendance.status == 'Absent' ? AppColors.error : (isDark ? Colors.white70 : Colors.black87), fontWeight: FontWeight.bold, fontSize: 16)),
+                                                child: Text(
+                                                  'A',
+                                                  style: TextStyle(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Absent'
+                                                        ? AppColors.error
+                                                        : (isDark
+                                                              ? Colors.white70
+                                                              : Colors.black87),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                           Expanded(
                                             child: InkWell(
-                                              onTap: () => setAttendance(worker, 'Half Day'),
-                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () => setAttendance(
+                                                worker,
+                                                'Half Day',
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: attendance.status == 'Half Day' ? AppColors.warning.withAlpha(40) : Colors.transparent,
-                                                  border: Border.all(color: attendance.status == 'Half Day' ? AppColors.warning : (isDark ? AppColors.darkBorder : AppColors.lightBorder)),
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  color:
+                                                      attendance.status ==
+                                                          'Half Day'
+                                                      ? AppColors.warning
+                                                            .withAlpha(40)
+                                                      : Colors.transparent,
+                                                  border: Border.all(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Half Day'
+                                                        ? AppColors.warning
+                                                        : (isDark
+                                                              ? AppColors
+                                                                    .darkBorder
+                                                              : AppColors
+                                                                    .lightBorder),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
                                                 alignment: Alignment.center,
-                                                child: Text('½', style: TextStyle(color: attendance.status == 'Half Day' ? AppColors.warning : (isDark ? Colors.white70 : Colors.black87), fontWeight: FontWeight.bold, fontSize: 16)),
+                                                child: Text(
+                                                  '½',
+                                                  style: TextStyle(
+                                                    color:
+                                                        attendance.status ==
+                                                            'Half Day'
+                                                        ? AppColors.warning
+                                                        : (isDark
+                                                              ? Colors.white70
+                                                              : Colors.black87),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                           Expanded(
                                             child: InkWell(
-                                              onTap: () => showWageAdjustmentDialog(worker, attendance),
-                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () =>
+                                                  showWageAdjustmentDialog(
+                                                    worker,
+                                                    attendance,
+                                                  ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                    ),
                                                 decoration: BoxDecoration(
                                                   color: Colors.transparent,
-                                                  border: Border.all(color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                    color: isDark
+                                                        ? AppColors.darkBorder
+                                                        : AppColors.lightBorder,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
                                                 alignment: Alignment.center,
-                                                child: Icon(Icons.more_horiz, color: isDark ? Colors.white70 : Colors.black87, size: 20),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  color: isDark
+                                                      ? Colors.white70
+                                                      : Colors.black87,
+                                                  size: 20,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -549,7 +782,14 @@ class WageAdjustmentDialog extends HookWidget {
   final Worker worker;
   final Attendance attendance;
   final DailyWage? existingWage;
-  final Function(String status, double otHours, double bonus, double deduction, String? remarks) onSave;
+  final Function(
+    String status,
+    double otHours,
+    double bonus,
+    double deduction,
+    String? remarks,
+  )
+  onSave;
 
   const WageAdjustmentDialog({
     super.key,
@@ -562,12 +802,27 @@ class WageAdjustmentDialog extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedStatus = useState(attendance.status);
-    final otHoursController = useTextEditingController(text: attendance.overtimeHours.toString());
-    final bonusController = useTextEditingController(text: existingWage?.bonus.toString() ?? '0.0');
-    final deductionController = useTextEditingController(text: existingWage?.deduction.toString() ?? '0.0');
-    final remarksController = useTextEditingController(text: attendance.remarks);
+    final otHoursController = useTextEditingController(
+      text: attendance.overtimeHours.toString(),
+    );
+    final bonusController = useTextEditingController(
+      text: existingWage?.bonus.toString() ?? '0.0',
+    );
+    final deductionController = useTextEditingController(
+      text: existingWage?.deduction.toString() ?? '0.0',
+    );
+    final remarksController = useTextEditingController(
+      text: attendance.remarks,
+    );
 
-    final statusOptions = ['Present', 'Half Day', 'Absent', 'Leave', 'Holiday', 'Overtime'];
+    final statusOptions = [
+      'Present',
+      'Half Day',
+      'Absent',
+      'Leave',
+      'Holiday',
+      'Overtime',
+    ];
 
     return AlertDialog(
       title: Text(worker.fullName),
@@ -580,10 +835,7 @@ class WageAdjustmentDialog extends HookWidget {
               initialValue: selectedStatus.value,
               decoration: const InputDecoration(labelText: 'Attendance Status'),
               items: statusOptions.map((status) {
-                return DropdownMenuItem(
-                  value: status,
-                  child: Text(status),
-                );
+                return DropdownMenuItem(value: status, child: Text(status));
               }).toList(),
               onChanged: (val) {
                 if (val != null) {

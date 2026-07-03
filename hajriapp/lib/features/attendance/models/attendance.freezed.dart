@@ -12,7 +12,8 @@ part of 'attendance.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Attendance _$AttendanceFromJson(Map<String, dynamic> json) {
   return _Attendance.fromJson(json);
@@ -49,21 +50,23 @@ mixin _$Attendance {
 /// @nodoc
 abstract class $AttendanceCopyWith<$Res> {
   factory $AttendanceCopyWith(
-          Attendance value, $Res Function(Attendance) then) =
-      _$AttendanceCopyWithImpl<$Res, Attendance>;
+    Attendance value,
+    $Res Function(Attendance) then,
+  ) = _$AttendanceCopyWithImpl<$Res, Attendance>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'project_id') String? projectId,
-      String date,
-      String status,
-      @JsonKey(name: 'working_hours') double workingHours,
-      @JsonKey(name: 'overtime_hours') double overtimeHours,
-      String? remarks,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'project_id') String? projectId,
+    String date,
+    String status,
+    @JsonKey(name: 'working_hours') double workingHours,
+    @JsonKey(name: 'overtime_hours') double overtimeHours,
+    String? remarks,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -91,52 +94,55 @@ class _$AttendanceCopyWithImpl<$Res, $Val extends Attendance>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      workingHours: null == workingHours
-          ? _value.workingHours
-          : workingHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeHours: null == overtimeHours
-          ? _value.overtimeHours
-          : overtimeHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      remarks: freezed == remarks
-          ? _value.remarks
-          : remarks // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            workerId: null == workerId
+                ? _value.workerId
+                : workerId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            projectId: freezed == projectId
+                ? _value.projectId
+                : projectId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            date: null == date
+                ? _value.date
+                : date // ignore: cast_nullable_to_non_nullable
+                      as String,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as String,
+            workingHours: null == workingHours
+                ? _value.workingHours
+                : workingHours // ignore: cast_nullable_to_non_nullable
+                      as double,
+            overtimeHours: null == overtimeHours
+                ? _value.overtimeHours
+                : overtimeHours // ignore: cast_nullable_to_non_nullable
+                      as double,
+            remarks: freezed == remarks
+                ? _value.remarks
+                : remarks // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -144,22 +150,24 @@ class _$AttendanceCopyWithImpl<$Res, $Val extends Attendance>
 abstract class _$$AttendanceImplCopyWith<$Res>
     implements $AttendanceCopyWith<$Res> {
   factory _$$AttendanceImplCopyWith(
-          _$AttendanceImpl value, $Res Function(_$AttendanceImpl) then) =
-      __$$AttendanceImplCopyWithImpl<$Res>;
+    _$AttendanceImpl value,
+    $Res Function(_$AttendanceImpl) then,
+  ) = __$$AttendanceImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'project_id') String? projectId,
-      String date,
-      String status,
-      @JsonKey(name: 'working_hours') double workingHours,
-      @JsonKey(name: 'overtime_hours') double overtimeHours,
-      String? remarks,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'project_id') String? projectId,
+    String date,
+    String status,
+    @JsonKey(name: 'working_hours') double workingHours,
+    @JsonKey(name: 'overtime_hours') double overtimeHours,
+    String? remarks,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -167,8 +175,9 @@ class __$$AttendanceImplCopyWithImpl<$Res>
     extends _$AttendanceCopyWithImpl<$Res, _$AttendanceImpl>
     implements _$$AttendanceImplCopyWith<$Res> {
   __$$AttendanceImplCopyWithImpl(
-      _$AttendanceImpl _value, $Res Function(_$AttendanceImpl) _then)
-      : super(_value, _then);
+    _$AttendanceImpl _value,
+    $Res Function(_$AttendanceImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -185,70 +194,73 @@ class __$$AttendanceImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$AttendanceImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      workingHours: null == workingHours
-          ? _value.workingHours
-          : workingHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeHours: null == overtimeHours
-          ? _value.overtimeHours
-          : overtimeHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      remarks: freezed == remarks
-          ? _value.remarks
-          : remarks // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$AttendanceImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        workerId: null == workerId
+            ? _value.workerId
+            : workerId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        projectId: freezed == projectId
+            ? _value.projectId
+            : projectId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        date: null == date
+            ? _value.date
+            : date // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as String,
+        workingHours: null == workingHours
+            ? _value.workingHours
+            : workingHours // ignore: cast_nullable_to_non_nullable
+                  as double,
+        overtimeHours: null == overtimeHours
+            ? _value.overtimeHours
+            : overtimeHours // ignore: cast_nullable_to_non_nullable
+                  as double,
+        remarks: freezed == remarks
+            ? _value.remarks
+            : remarks // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$AttendanceImpl implements _Attendance {
-  const _$AttendanceImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      @JsonKey(name: 'worker_id') required this.workerId,
-      @JsonKey(name: 'project_id') this.projectId,
-      required this.date,
-      required this.status,
-      @JsonKey(name: 'working_hours') this.workingHours = 0.0,
-      @JsonKey(name: 'overtime_hours') this.overtimeHours = 0.0,
-      this.remarks,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$AttendanceImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    @JsonKey(name: 'worker_id') required this.workerId,
+    @JsonKey(name: 'project_id') this.projectId,
+    required this.date,
+    required this.status,
+    @JsonKey(name: 'working_hours') this.workingHours = 0.0,
+    @JsonKey(name: 'overtime_hours') this.overtimeHours = 0.0,
+    this.remarks,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$AttendanceImpl.fromJson(Map<String, dynamic> json) =>
       _$$AttendanceImplFromJson(json);
@@ -268,7 +280,7 @@ class _$AttendanceImpl implements _Attendance {
   final String date;
   @override
   final String status;
-// 'Present', 'Absent', 'Half Day', 'Leave', 'Holiday', 'Overtime'
+  // 'Present', 'Absent', 'Half Day', 'Leave', 'Holiday', 'Overtime'
   @override
   @JsonKey(name: 'working_hours')
   final double workingHours;
@@ -317,18 +329,19 @@ class _$AttendanceImpl implements _Attendance {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      contractorId,
-      workerId,
-      projectId,
-      date,
-      status,
-      workingHours,
-      overtimeHours,
-      remarks,
-      createdAt,
-      updatedAt);
+    runtimeType,
+    id,
+    contractorId,
+    workerId,
+    projectId,
+    date,
+    status,
+    workingHours,
+    overtimeHours,
+    remarks,
+    createdAt,
+    updatedAt,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -338,25 +351,24 @@ class _$AttendanceImpl implements _Attendance {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AttendanceImplToJson(
-      this,
-    );
+    return _$$AttendanceImplToJson(this);
   }
 }
 
 abstract class _Attendance implements Attendance {
-  const factory _Attendance(
-      {required final String id,
-      @JsonKey(name: 'contractor_id') required final String contractorId,
-      @JsonKey(name: 'worker_id') required final String workerId,
-      @JsonKey(name: 'project_id') final String? projectId,
-      required final String date,
-      required final String status,
-      @JsonKey(name: 'working_hours') final double workingHours,
-      @JsonKey(name: 'overtime_hours') final double overtimeHours,
-      final String? remarks,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at') final String? updatedAt}) = _$AttendanceImpl;
+  const factory _Attendance({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    @JsonKey(name: 'worker_id') required final String workerId,
+    @JsonKey(name: 'project_id') final String? projectId,
+    required final String date,
+    required final String status,
+    @JsonKey(name: 'working_hours') final double workingHours,
+    @JsonKey(name: 'overtime_hours') final double overtimeHours,
+    final String? remarks,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$AttendanceImpl;
 
   factory _Attendance.fromJson(Map<String, dynamic> json) =
       _$AttendanceImpl.fromJson;

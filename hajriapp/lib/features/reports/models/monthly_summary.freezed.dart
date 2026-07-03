@@ -12,7 +12,8 @@ part of 'monthly_summary.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 MonthlySummary _$MonthlySummaryFromJson(Map<String, dynamic> json) {
   return _MonthlySummary.fromJson(json);
@@ -60,29 +61,31 @@ mixin _$MonthlySummary {
 /// @nodoc
 abstract class $MonthlySummaryCopyWith<$Res> {
   factory $MonthlySummaryCopyWith(
-          MonthlySummary value, $Res Function(MonthlySummary) then) =
-      _$MonthlySummaryCopyWithImpl<$Res, MonthlySummary>;
+    MonthlySummary value,
+    $Res Function(MonthlySummary) then,
+  ) = _$MonthlySummaryCopyWithImpl<$Res, MonthlySummary>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      int month,
-      int year,
-      @JsonKey(name: 'present_days') double presentDays,
-      @JsonKey(name: 'half_days') double halfDays,
-      @JsonKey(name: 'leave_days') double leaveDays,
-      @JsonKey(name: 'absent_days') double absentDays,
-      @JsonKey(name: 'holiday_days') double holidayDays,
-      @JsonKey(name: 'overtime_hours') double overtimeHours,
-      @JsonKey(name: 'gross_amount') double grossAmount,
-      double bonus,
-      double deduction,
-      double advance,
-      double paid,
-      double balance,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    int month,
+    int year,
+    @JsonKey(name: 'present_days') double presentDays,
+    @JsonKey(name: 'half_days') double halfDays,
+    @JsonKey(name: 'leave_days') double leaveDays,
+    @JsonKey(name: 'absent_days') double absentDays,
+    @JsonKey(name: 'holiday_days') double holidayDays,
+    @JsonKey(name: 'overtime_hours') double overtimeHours,
+    @JsonKey(name: 'gross_amount') double grossAmount,
+    double bonus,
+    double deduction,
+    double advance,
+    double paid,
+    double balance,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -118,115 +121,120 @@ class _$MonthlySummaryCopyWithImpl<$Res, $Val extends MonthlySummary>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      month: null == month
-          ? _value.month
-          : month // ignore: cast_nullable_to_non_nullable
-              as int,
-      year: null == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int,
-      presentDays: null == presentDays
-          ? _value.presentDays
-          : presentDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      halfDays: null == halfDays
-          ? _value.halfDays
-          : halfDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      leaveDays: null == leaveDays
-          ? _value.leaveDays
-          : leaveDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      absentDays: null == absentDays
-          ? _value.absentDays
-          : absentDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      holidayDays: null == holidayDays
-          ? _value.holidayDays
-          : holidayDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeHours: null == overtimeHours
-          ? _value.overtimeHours
-          : overtimeHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      grossAmount: null == grossAmount
-          ? _value.grossAmount
-          : grossAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      bonus: null == bonus
-          ? _value.bonus
-          : bonus // ignore: cast_nullable_to_non_nullable
-              as double,
-      deduction: null == deduction
-          ? _value.deduction
-          : deduction // ignore: cast_nullable_to_non_nullable
-              as double,
-      advance: null == advance
-          ? _value.advance
-          : advance // ignore: cast_nullable_to_non_nullable
-              as double,
-      paid: null == paid
-          ? _value.paid
-          : paid // ignore: cast_nullable_to_non_nullable
-              as double,
-      balance: null == balance
-          ? _value.balance
-          : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            workerId: null == workerId
+                ? _value.workerId
+                : workerId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            month: null == month
+                ? _value.month
+                : month // ignore: cast_nullable_to_non_nullable
+                      as int,
+            year: null == year
+                ? _value.year
+                : year // ignore: cast_nullable_to_non_nullable
+                      as int,
+            presentDays: null == presentDays
+                ? _value.presentDays
+                : presentDays // ignore: cast_nullable_to_non_nullable
+                      as double,
+            halfDays: null == halfDays
+                ? _value.halfDays
+                : halfDays // ignore: cast_nullable_to_non_nullable
+                      as double,
+            leaveDays: null == leaveDays
+                ? _value.leaveDays
+                : leaveDays // ignore: cast_nullable_to_non_nullable
+                      as double,
+            absentDays: null == absentDays
+                ? _value.absentDays
+                : absentDays // ignore: cast_nullable_to_non_nullable
+                      as double,
+            holidayDays: null == holidayDays
+                ? _value.holidayDays
+                : holidayDays // ignore: cast_nullable_to_non_nullable
+                      as double,
+            overtimeHours: null == overtimeHours
+                ? _value.overtimeHours
+                : overtimeHours // ignore: cast_nullable_to_non_nullable
+                      as double,
+            grossAmount: null == grossAmount
+                ? _value.grossAmount
+                : grossAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            bonus: null == bonus
+                ? _value.bonus
+                : bonus // ignore: cast_nullable_to_non_nullable
+                      as double,
+            deduction: null == deduction
+                ? _value.deduction
+                : deduction // ignore: cast_nullable_to_non_nullable
+                      as double,
+            advance: null == advance
+                ? _value.advance
+                : advance // ignore: cast_nullable_to_non_nullable
+                      as double,
+            paid: null == paid
+                ? _value.paid
+                : paid // ignore: cast_nullable_to_non_nullable
+                      as double,
+            balance: null == balance
+                ? _value.balance
+                : balance // ignore: cast_nullable_to_non_nullable
+                      as double,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$MonthlySummaryImplCopyWith<$Res>
     implements $MonthlySummaryCopyWith<$Res> {
-  factory _$$MonthlySummaryImplCopyWith(_$MonthlySummaryImpl value,
-          $Res Function(_$MonthlySummaryImpl) then) =
-      __$$MonthlySummaryImplCopyWithImpl<$Res>;
+  factory _$$MonthlySummaryImplCopyWith(
+    _$MonthlySummaryImpl value,
+    $Res Function(_$MonthlySummaryImpl) then,
+  ) = __$$MonthlySummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      int month,
-      int year,
-      @JsonKey(name: 'present_days') double presentDays,
-      @JsonKey(name: 'half_days') double halfDays,
-      @JsonKey(name: 'leave_days') double leaveDays,
-      @JsonKey(name: 'absent_days') double absentDays,
-      @JsonKey(name: 'holiday_days') double holidayDays,
-      @JsonKey(name: 'overtime_hours') double overtimeHours,
-      @JsonKey(name: 'gross_amount') double grossAmount,
-      double bonus,
-      double deduction,
-      double advance,
-      double paid,
-      double balance,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    int month,
+    int year,
+    @JsonKey(name: 'present_days') double presentDays,
+    @JsonKey(name: 'half_days') double halfDays,
+    @JsonKey(name: 'leave_days') double leaveDays,
+    @JsonKey(name: 'absent_days') double absentDays,
+    @JsonKey(name: 'holiday_days') double holidayDays,
+    @JsonKey(name: 'overtime_hours') double overtimeHours,
+    @JsonKey(name: 'gross_amount') double grossAmount,
+    double bonus,
+    double deduction,
+    double advance,
+    double paid,
+    double balance,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -234,8 +242,9 @@ class __$$MonthlySummaryImplCopyWithImpl<$Res>
     extends _$MonthlySummaryCopyWithImpl<$Res, _$MonthlySummaryImpl>
     implements _$$MonthlySummaryImplCopyWith<$Res> {
   __$$MonthlySummaryImplCopyWithImpl(
-      _$MonthlySummaryImpl _value, $Res Function(_$MonthlySummaryImpl) _then)
-      : super(_value, _then);
+    _$MonthlySummaryImpl _value,
+    $Res Function(_$MonthlySummaryImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -260,110 +269,113 @@ class __$$MonthlySummaryImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$MonthlySummaryImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      month: null == month
-          ? _value.month
-          : month // ignore: cast_nullable_to_non_nullable
-              as int,
-      year: null == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int,
-      presentDays: null == presentDays
-          ? _value.presentDays
-          : presentDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      halfDays: null == halfDays
-          ? _value.halfDays
-          : halfDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      leaveDays: null == leaveDays
-          ? _value.leaveDays
-          : leaveDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      absentDays: null == absentDays
-          ? _value.absentDays
-          : absentDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      holidayDays: null == holidayDays
-          ? _value.holidayDays
-          : holidayDays // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeHours: null == overtimeHours
-          ? _value.overtimeHours
-          : overtimeHours // ignore: cast_nullable_to_non_nullable
-              as double,
-      grossAmount: null == grossAmount
-          ? _value.grossAmount
-          : grossAmount // ignore: cast_nullable_to_non_nullable
-              as double,
-      bonus: null == bonus
-          ? _value.bonus
-          : bonus // ignore: cast_nullable_to_non_nullable
-              as double,
-      deduction: null == deduction
-          ? _value.deduction
-          : deduction // ignore: cast_nullable_to_non_nullable
-              as double,
-      advance: null == advance
-          ? _value.advance
-          : advance // ignore: cast_nullable_to_non_nullable
-              as double,
-      paid: null == paid
-          ? _value.paid
-          : paid // ignore: cast_nullable_to_non_nullable
-              as double,
-      balance: null == balance
-          ? _value.balance
-          : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$MonthlySummaryImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        workerId: null == workerId
+            ? _value.workerId
+            : workerId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        month: null == month
+            ? _value.month
+            : month // ignore: cast_nullable_to_non_nullable
+                  as int,
+        year: null == year
+            ? _value.year
+            : year // ignore: cast_nullable_to_non_nullable
+                  as int,
+        presentDays: null == presentDays
+            ? _value.presentDays
+            : presentDays // ignore: cast_nullable_to_non_nullable
+                  as double,
+        halfDays: null == halfDays
+            ? _value.halfDays
+            : halfDays // ignore: cast_nullable_to_non_nullable
+                  as double,
+        leaveDays: null == leaveDays
+            ? _value.leaveDays
+            : leaveDays // ignore: cast_nullable_to_non_nullable
+                  as double,
+        absentDays: null == absentDays
+            ? _value.absentDays
+            : absentDays // ignore: cast_nullable_to_non_nullable
+                  as double,
+        holidayDays: null == holidayDays
+            ? _value.holidayDays
+            : holidayDays // ignore: cast_nullable_to_non_nullable
+                  as double,
+        overtimeHours: null == overtimeHours
+            ? _value.overtimeHours
+            : overtimeHours // ignore: cast_nullable_to_non_nullable
+                  as double,
+        grossAmount: null == grossAmount
+            ? _value.grossAmount
+            : grossAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        bonus: null == bonus
+            ? _value.bonus
+            : bonus // ignore: cast_nullable_to_non_nullable
+                  as double,
+        deduction: null == deduction
+            ? _value.deduction
+            : deduction // ignore: cast_nullable_to_non_nullable
+                  as double,
+        advance: null == advance
+            ? _value.advance
+            : advance // ignore: cast_nullable_to_non_nullable
+                  as double,
+        paid: null == paid
+            ? _value.paid
+            : paid // ignore: cast_nullable_to_non_nullable
+                  as double,
+        balance: null == balance
+            ? _value.balance
+            : balance // ignore: cast_nullable_to_non_nullable
+                  as double,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$MonthlySummaryImpl implements _MonthlySummary {
-  const _$MonthlySummaryImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      @JsonKey(name: 'worker_id') required this.workerId,
-      required this.month,
-      required this.year,
-      @JsonKey(name: 'present_days') this.presentDays = 0.0,
-      @JsonKey(name: 'half_days') this.halfDays = 0.0,
-      @JsonKey(name: 'leave_days') this.leaveDays = 0.0,
-      @JsonKey(name: 'absent_days') this.absentDays = 0.0,
-      @JsonKey(name: 'holiday_days') this.holidayDays = 0.0,
-      @JsonKey(name: 'overtime_hours') this.overtimeHours = 0.0,
-      @JsonKey(name: 'gross_amount') this.grossAmount = 0.0,
-      this.bonus = 0.0,
-      this.deduction = 0.0,
-      this.advance = 0.0,
-      this.paid = 0.0,
-      this.balance = 0.0,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$MonthlySummaryImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    @JsonKey(name: 'worker_id') required this.workerId,
+    required this.month,
+    required this.year,
+    @JsonKey(name: 'present_days') this.presentDays = 0.0,
+    @JsonKey(name: 'half_days') this.halfDays = 0.0,
+    @JsonKey(name: 'leave_days') this.leaveDays = 0.0,
+    @JsonKey(name: 'absent_days') this.absentDays = 0.0,
+    @JsonKey(name: 'holiday_days') this.holidayDays = 0.0,
+    @JsonKey(name: 'overtime_hours') this.overtimeHours = 0.0,
+    @JsonKey(name: 'gross_amount') this.grossAmount = 0.0,
+    this.bonus = 0.0,
+    this.deduction = 0.0,
+    this.advance = 0.0,
+    this.paid = 0.0,
+    this.balance = 0.0,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$MonthlySummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$MonthlySummaryImplFromJson(json);
@@ -469,65 +481,65 @@ class _$MonthlySummaryImpl implements _MonthlySummary {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        contractorId,
-        workerId,
-        month,
-        year,
-        presentDays,
-        halfDays,
-        leaveDays,
-        absentDays,
-        holidayDays,
-        overtimeHours,
-        grossAmount,
-        bonus,
-        deduction,
-        advance,
-        paid,
-        balance,
-        createdAt,
-        updatedAt
-      ]);
+    runtimeType,
+    id,
+    contractorId,
+    workerId,
+    month,
+    year,
+    presentDays,
+    halfDays,
+    leaveDays,
+    absentDays,
+    holidayDays,
+    overtimeHours,
+    grossAmount,
+    bonus,
+    deduction,
+    advance,
+    paid,
+    balance,
+    createdAt,
+    updatedAt,
+  ]);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MonthlySummaryImplCopyWith<_$MonthlySummaryImpl> get copyWith =>
       __$$MonthlySummaryImplCopyWithImpl<_$MonthlySummaryImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MonthlySummaryImplToJson(
-      this,
-    );
+    return _$$MonthlySummaryImplToJson(this);
   }
 }
 
 abstract class _MonthlySummary implements MonthlySummary {
-  const factory _MonthlySummary(
-          {required final String id,
-          @JsonKey(name: 'contractor_id') required final String contractorId,
-          @JsonKey(name: 'worker_id') required final String workerId,
-          required final int month,
-          required final int year,
-          @JsonKey(name: 'present_days') final double presentDays,
-          @JsonKey(name: 'half_days') final double halfDays,
-          @JsonKey(name: 'leave_days') final double leaveDays,
-          @JsonKey(name: 'absent_days') final double absentDays,
-          @JsonKey(name: 'holiday_days') final double holidayDays,
-          @JsonKey(name: 'overtime_hours') final double overtimeHours,
-          @JsonKey(name: 'gross_amount') final double grossAmount,
-          final double bonus,
-          final double deduction,
-          final double advance,
-          final double paid,
-          final double balance,
-          @JsonKey(name: 'created_at') final String? createdAt,
-          @JsonKey(name: 'updated_at') final String? updatedAt}) =
-      _$MonthlySummaryImpl;
+  const factory _MonthlySummary({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    @JsonKey(name: 'worker_id') required final String workerId,
+    required final int month,
+    required final int year,
+    @JsonKey(name: 'present_days') final double presentDays,
+    @JsonKey(name: 'half_days') final double halfDays,
+    @JsonKey(name: 'leave_days') final double leaveDays,
+    @JsonKey(name: 'absent_days') final double absentDays,
+    @JsonKey(name: 'holiday_days') final double holidayDays,
+    @JsonKey(name: 'overtime_hours') final double overtimeHours,
+    @JsonKey(name: 'gross_amount') final double grossAmount,
+    final double bonus,
+    final double deduction,
+    final double advance,
+    final double paid,
+    final double balance,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$MonthlySummaryImpl;
 
   factory _MonthlySummary.fromJson(Map<String, dynamic> json) =
       _$MonthlySummaryImpl.fromJson;

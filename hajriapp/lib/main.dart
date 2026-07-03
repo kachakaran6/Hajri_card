@@ -24,14 +24,12 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('settings');
 
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
+final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((
+  ref,
+) {
   return ThemeModeNotifier();
 });
 
@@ -100,10 +98,7 @@ class MyApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('gu'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('gu')],
     );
   }
 }

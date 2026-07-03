@@ -38,15 +38,22 @@ extension LocalizationExtension on BuildContext {
   String translate(String key) {
     final l10n = AppLocalizations.of(this);
     if (l10n == null) return key;
-    
+
     switch (key.toLowerCase()) {
-      case 'present': return l10n.present;
-      case 'absent': return l10n.absent;
-      case 'half day': return l10n.halfDay;
-      case 'leave': return l10n.leave;
-      case 'holiday': return l10n.holiday;
-      case 'overtime': return l10n.overtime;
-      default: return key;
+      case 'present':
+        return l10n.present;
+      case 'absent':
+        return l10n.absent;
+      case 'half day':
+        return l10n.halfDay;
+      case 'leave':
+        return l10n.leave;
+      case 'holiday':
+        return l10n.holiday;
+      case 'overtime':
+        return l10n.overtime;
+      default:
+        return key;
     }
   }
 }

@@ -12,7 +12,8 @@ part of 'project.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Project _$ProjectFromJson(Map<String, dynamic> json) {
   return _Project.fromJson(json);
@@ -46,17 +47,18 @@ abstract class $ProjectCopyWith<$Res> {
   factory $ProjectCopyWith(Project value, $Res Function(Project) then) =
       _$ProjectCopyWithImpl<$Res, Project>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      String name,
-      String? location,
-      @JsonKey(name: 'start_date') String? startDate,
-      @JsonKey(name: 'end_date') String? endDate,
-      String status,
-      String? notes,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    String name,
+    String? location,
+    @JsonKey(name: 'start_date') String? startDate,
+    @JsonKey(name: 'end_date') String? endDate,
+    String status,
+    String? notes,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -83,69 +85,74 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as String?,
-      startDate: freezed == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      endDate: freezed == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String,
+            location: freezed == location
+                ? _value.location
+                : location // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            startDate: freezed == startDate
+                ? _value.startDate
+                : startDate // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            endDate: freezed == endDate
+                ? _value.endDate
+                : endDate // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as String,
+            notes: freezed == notes
+                ? _value.notes
+                : notes // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
   factory _$$ProjectImplCopyWith(
-          _$ProjectImpl value, $Res Function(_$ProjectImpl) then) =
-      __$$ProjectImplCopyWithImpl<$Res>;
+    _$ProjectImpl value,
+    $Res Function(_$ProjectImpl) then,
+  ) = __$$ProjectImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      String name,
-      String? location,
-      @JsonKey(name: 'start_date') String? startDate,
-      @JsonKey(name: 'end_date') String? endDate,
-      String status,
-      String? notes,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    String name,
+    String? location,
+    @JsonKey(name: 'start_date') String? startDate,
+    @JsonKey(name: 'end_date') String? endDate,
+    String status,
+    String? notes,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -153,8 +160,9 @@ class __$$ProjectImplCopyWithImpl<$Res>
     extends _$ProjectCopyWithImpl<$Res, _$ProjectImpl>
     implements _$$ProjectImplCopyWith<$Res> {
   __$$ProjectImplCopyWithImpl(
-      _$ProjectImpl _value, $Res Function(_$ProjectImpl) _then)
-      : super(_value, _then);
+    _$ProjectImpl _value,
+    $Res Function(_$ProjectImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -170,65 +178,68 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$ProjectImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as String?,
-      startDate: freezed == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      endDate: freezed == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$ProjectImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        location: freezed == location
+            ? _value.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        startDate: freezed == startDate
+            ? _value.startDate
+            : startDate // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        endDate: freezed == endDate
+            ? _value.endDate
+            : endDate // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as String,
+        notes: freezed == notes
+            ? _value.notes
+            : notes // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ProjectImpl implements _Project {
-  const _$ProjectImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      required this.name,
-      this.location,
-      @JsonKey(name: 'start_date') this.startDate,
-      @JsonKey(name: 'end_date') this.endDate,
-      this.status = 'Active',
-      this.notes,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$ProjectImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    required this.name,
+    this.location,
+    @JsonKey(name: 'start_date') this.startDate,
+    @JsonKey(name: 'end_date') this.endDate,
+    this.status = 'Active',
+    this.notes,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$ProjectImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjectImplFromJson(json);
@@ -289,8 +300,19 @@ class _$ProjectImpl implements _Project {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, contractorId, name, location,
-      startDate, endDate, status, notes, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    contractorId,
+    name,
+    location,
+    startDate,
+    endDate,
+    status,
+    notes,
+    createdAt,
+    updatedAt,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -300,24 +322,23 @@ class _$ProjectImpl implements _Project {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ProjectImplToJson(
-      this,
-    );
+    return _$$ProjectImplToJson(this);
   }
 }
 
 abstract class _Project implements Project {
-  const factory _Project(
-      {required final String id,
-      @JsonKey(name: 'contractor_id') required final String contractorId,
-      required final String name,
-      final String? location,
-      @JsonKey(name: 'start_date') final String? startDate,
-      @JsonKey(name: 'end_date') final String? endDate,
-      final String status,
-      final String? notes,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at') final String? updatedAt}) = _$ProjectImpl;
+  const factory _Project({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    required final String name,
+    final String? location,
+    @JsonKey(name: 'start_date') final String? startDate,
+    @JsonKey(name: 'end_date') final String? endDate,
+    final String status,
+    final String? notes,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
 

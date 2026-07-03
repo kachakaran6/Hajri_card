@@ -14,7 +14,7 @@ class PdfGenerator {
     required List<Worker> workers,
   }) async {
     final pdf = pw.Document();
-    
+
     // Load Gujarati Font for PDF
     final font = await PdfGoogleFonts.notoSansGujaratiRegular();
     final fallbackFont = await PdfGoogleFonts.notoSansRegular();
@@ -30,7 +30,7 @@ class PdfGenerator {
       'Gross',
       'Advance',
       'Paid',
-      'Balance'
+      'Balance',
     ];
 
     final tableData = <List<String>>[];
@@ -43,7 +43,13 @@ class PdfGenerator {
       final summary = summaries[i];
       final worker = workers.firstWhere(
         (w) => w.id == summary.workerId,
-        orElse: () => Worker(id: '', contractorId: '', fullName: 'Unknown', dailyWage: 0, joiningDate: ''),
+        orElse: () => Worker(
+          id: '',
+          contractorId: '',
+          fullName: 'Unknown',
+          dailyWage: 0,
+          joiningDate: '',
+        ),
       );
 
       totalGross += summary.grossAmount;
@@ -85,14 +91,15 @@ class PdfGenerator {
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(32),
-        theme: pw.ThemeData.withFont(
-          base: font,
-          bold: font,
-          italic: font,
-          boldItalic: font,
-        ).copyWith(
-          defaultTextStyle: pw.TextStyle(fontFallback: [fallbackFont]),
-        ),
+        theme:
+            pw.ThemeData.withFont(
+              base: font,
+              bold: font,
+              italic: font,
+              boldItalic: font,
+            ).copyWith(
+              defaultTextStyle: pw.TextStyle(fontFallback: [fallbackFont]),
+            ),
         build: (context) => [
           pw.Header(
             level: 0,
@@ -104,17 +111,27 @@ class PdfGenerator {
                   children: [
                     pw.Text(
                       title,
-                      style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+                      style: pw.TextStyle(
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                     pw.Text(
                       'Project: $projectName',
-                      style: pw.TextStyle(fontSize: 14, color: PdfColors.grey700),
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        color: PdfColors.grey700,
+                      ),
                     ),
                   ],
                 ),
                 pw.Text(
                   monthYear,
-                  style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold, color: PdfColors.grey600),
+                  style: pw.TextStyle(
+                    fontSize: 16,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.grey600,
+                  ),
                 ),
               ],
             ),
@@ -124,7 +141,10 @@ class PdfGenerator {
             headers: headers,
             data: tableData,
             border: pw.TableBorder.all(color: PdfColors.grey300, width: 0.5),
-            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
+            headerStyle: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              fontSize: 10,
+            ),
             cellStyle: const pw.TextStyle(fontSize: 9),
             headerDecoration: const pw.BoxDecoration(color: PdfColors.grey200),
             rowDecoration: const pw.BoxDecoration(color: PdfColors.white),
@@ -147,7 +167,7 @@ class PdfGenerator {
     required Worker worker,
   }) async {
     final pdf = pw.Document();
-    
+
     // Load Gujarati Font for PDF
     final font = await PdfGoogleFonts.notoSansGujaratiRegular();
     final fallbackFont = await PdfGoogleFonts.notoSansRegular();
@@ -156,14 +176,15 @@ class PdfGenerator {
       pw.Page(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(32),
-        theme: pw.ThemeData.withFont(
-          base: font,
-          bold: font,
-          italic: font,
-          boldItalic: font,
-        ).copyWith(
-          defaultTextStyle: pw.TextStyle(fontFallback: [fallbackFont]),
-        ),
+        theme:
+            pw.ThemeData.withFont(
+              base: font,
+              bold: font,
+              italic: font,
+              boldItalic: font,
+            ).copyWith(
+              defaultTextStyle: pw.TextStyle(fontFallback: [fallbackFont]),
+            ),
         build: (context) {
           return pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -171,11 +192,14 @@ class PdfGenerator {
               pw.Center(
                 child: pw.Text(
                   'PAYSLIP (પગાર સ્લિપ)',
-                  style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
+                  style: pw.TextStyle(
+                    fontSize: 24,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
                 ),
               ),
               pw.SizedBox(height: 32),
-              
+
               // Worker & Project Info
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -183,15 +207,36 @@ class PdfGenerator {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Worker Name: ${worker.fullName}', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Daily Wage: ₹${worker.dailyWage.toStringAsFixed(0)}', style: pw.TextStyle(fontSize: 12)),
+                      pw.Text(
+                        'Worker Name: ${worker.fullName}',
+                        style: pw.TextStyle(
+                          fontSize: 14,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Text(
+                        'Daily Wage: ₹${worker.dailyWage.toStringAsFixed(0)}',
+                        style: pw.TextStyle(fontSize: 12),
+                      ),
                     ],
                   ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
-                      pw.Text('Project: $projectName', style: pw.TextStyle(fontSize: 12, color: PdfColors.grey700)),
-                      pw.Text('Month: $monthYear', style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
+                      pw.Text(
+                        'Project: $projectName',
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.grey700,
+                        ),
+                      ),
+                      pw.Text(
+                        'Month: $monthYear',
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -201,7 +246,13 @@ class PdfGenerator {
               pw.SizedBox(height: 24),
 
               // Attendance Summary
-              pw.Text('Attendance Details', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+              pw.Text(
+                'Attendance Details',
+                style: pw.TextStyle(
+                  fontSize: 14,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
               pw.SizedBox(height: 8),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -218,59 +269,113 @@ class PdfGenerator {
               pw.SizedBox(height: 24),
 
               // Financial Summary
-              pw.Text('Payment Details', style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+              pw.Text(
+                'Payment Details',
+                style: pw.TextStyle(
+                  fontSize: 14,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
               pw.SizedBox(height: 16),
-              
+
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('Gross Wages (કુલ પગાર):', style: const pw.TextStyle(fontSize: 14)),
-                  pw.Text('₹${summary.grossAmount.toStringAsFixed(0)}', style: const pw.TextStyle(fontSize: 14)),
+                  pw.Text(
+                    'Gross Wages (કુલ પગાર):',
+                    style: const pw.TextStyle(fontSize: 14),
+                  ),
+                  pw.Text(
+                    '₹${summary.grossAmount.toStringAsFixed(0)}',
+                    style: const pw.TextStyle(fontSize: 14),
+                  ),
                 ],
               ),
               pw.SizedBox(height: 8),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('Advance Taken (એડવાન્સ લીધેલ):', style: const pw.TextStyle(fontSize: 14, color: PdfColors.red800)),
-                  pw.Text('- ₹${summary.advance.toStringAsFixed(0)}', style: const pw.TextStyle(fontSize: 14, color: PdfColors.red800)),
+                  pw.Text(
+                    'Advance Taken (એડવાન્સ લીધેલ):',
+                    style: const pw.TextStyle(
+                      fontSize: 14,
+                      color: PdfColors.red800,
+                    ),
+                  ),
+                  pw.Text(
+                    '- ₹${summary.advance.toStringAsFixed(0)}',
+                    style: const pw.TextStyle(
+                      fontSize: 14,
+                      color: PdfColors.red800,
+                    ),
+                  ),
                 ],
               ),
               pw.SizedBox(height: 8),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('Salary Paid (પગાર ચૂકવ્યો):', style: const pw.TextStyle(fontSize: 14, color: PdfColors.green800)),
-                  pw.Text('- ₹${summary.paid.toStringAsFixed(0)}', style: const pw.TextStyle(fontSize: 14, color: PdfColors.green800)),
+                  pw.Text(
+                    'Salary Paid (પગાર ચૂકવ્યો):',
+                    style: const pw.TextStyle(
+                      fontSize: 14,
+                      color: PdfColors.green800,
+                    ),
+                  ),
+                  pw.Text(
+                    '- ₹${summary.paid.toStringAsFixed(0)}',
+                    style: const pw.TextStyle(
+                      fontSize: 14,
+                      color: PdfColors.green800,
+                    ),
+                  ),
                 ],
               ),
               pw.SizedBox(height: 16),
               pw.Divider(color: PdfColors.grey800),
               pw.SizedBox(height: 8),
-              
+
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('NET BALANCE DUE (બાકી રકમ):', style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                  pw.Text('₹${summary.balance.toStringAsFixed(0)}', style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                  pw.Text(
+                    'NET BALANCE DUE (બાકી રકમ):',
+                    style: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    '₹${summary.balance.toStringAsFixed(0)}',
+                    style: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
 
               pw.Spacer(),
-              
+
               // Signatures
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.Column(
                     children: [
-                      pw.SizedBox(width: 150, child: pw.Divider(color: PdfColors.black)),
+                      pw.SizedBox(
+                        width: 150,
+                        child: pw.Divider(color: PdfColors.black),
+                      ),
                       pw.Text('Worker Signature (સહી)'),
                     ],
                   ),
                   pw.Column(
                     children: [
-                      pw.SizedBox(width: 150, child: pw.Divider(color: PdfColors.black)),
+                      pw.SizedBox(
+                        width: 150,
+                        child: pw.Divider(color: PdfColors.black),
+                      ),
                       pw.Text('Contractor Signature (સહી)'),
                     ],
                   ),

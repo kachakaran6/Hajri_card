@@ -12,7 +12,8 @@ part of 'worker.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Worker _$WorkerFromJson(Map<String, dynamic> json) {
   return _Worker.fromJson(json);
@@ -69,31 +70,32 @@ abstract class $WorkerCopyWith<$Res> {
   factory $WorkerCopyWith(Worker value, $Res Function(Worker) then) =
       _$WorkerCopyWithImpl<$Res, Worker>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      String? photo,
-      @JsonKey(name: 'worker_code') String? workerCode,
-      @JsonKey(name: 'full_name') String fullName,
-      String? phone,
-      @JsonKey(name: 'father_name') String? fatherName,
-      String? address,
-      String? village,
-      String? city,
-      String? state,
-      @JsonKey(name: 'joining_date') String joiningDate,
-      @JsonKey(name: 'daily_wage') double dailyWage,
-      @JsonKey(name: 'overtime_rate') double overtimeRate,
-      String status,
-      @JsonKey(name: 'default_project') String? defaultProject,
-      String? notes,
-      @JsonKey(name: 'emergency_contact') String? emergencyContact,
-      @JsonKey(name: 'bank_name') String? bankName,
-      @JsonKey(name: 'account_number') String? accountNumber,
-      String? ifsc,
-      @JsonKey(name: 'upi_id') String? upiId,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    String? photo,
+    @JsonKey(name: 'worker_code') String? workerCode,
+    @JsonKey(name: 'full_name') String fullName,
+    String? phone,
+    @JsonKey(name: 'father_name') String? fatherName,
+    String? address,
+    String? village,
+    String? city,
+    String? state,
+    @JsonKey(name: 'joining_date') String joiningDate,
+    @JsonKey(name: 'daily_wage') double dailyWage,
+    @JsonKey(name: 'overtime_rate') double overtimeRate,
+    String status,
+    @JsonKey(name: 'default_project') String? defaultProject,
+    String? notes,
+    @JsonKey(name: 'emergency_contact') String? emergencyContact,
+    @JsonKey(name: 'bank_name') String? bankName,
+    @JsonKey(name: 'account_number') String? accountNumber,
+    String? ifsc,
+    @JsonKey(name: 'upi_id') String? upiId,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -134,139 +136,144 @@ class _$WorkerCopyWithImpl<$Res, $Val extends Worker>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      workerCode: freezed == workerCode
-          ? _value.workerCode
-          : workerCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fatherName: freezed == fatherName
-          ? _value.fatherName
-          : fatherName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      village: freezed == village
-          ? _value.village
-          : village // ignore: cast_nullable_to_non_nullable
-              as String?,
-      city: freezed == city
-          ? _value.city
-          : city // ignore: cast_nullable_to_non_nullable
-              as String?,
-      state: freezed == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as String?,
-      joiningDate: null == joiningDate
-          ? _value.joiningDate
-          : joiningDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      dailyWage: null == dailyWage
-          ? _value.dailyWage
-          : dailyWage // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeRate: null == overtimeRate
-          ? _value.overtimeRate
-          : overtimeRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      defaultProject: freezed == defaultProject
-          ? _value.defaultProject
-          : defaultProject // ignore: cast_nullable_to_non_nullable
-              as String?,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      emergencyContact: freezed == emergencyContact
-          ? _value.emergencyContact
-          : emergencyContact // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bankName: freezed == bankName
-          ? _value.bankName
-          : bankName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accountNumber: freezed == accountNumber
-          ? _value.accountNumber
-          : accountNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ifsc: freezed == ifsc
-          ? _value.ifsc
-          : ifsc // ignore: cast_nullable_to_non_nullable
-              as String?,
-      upiId: freezed == upiId
-          ? _value.upiId
-          : upiId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            photo: freezed == photo
+                ? _value.photo
+                : photo // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            workerCode: freezed == workerCode
+                ? _value.workerCode
+                : workerCode // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            fullName: null == fullName
+                ? _value.fullName
+                : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            phone: freezed == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            fatherName: freezed == fatherName
+                ? _value.fatherName
+                : fatherName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            address: freezed == address
+                ? _value.address
+                : address // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            village: freezed == village
+                ? _value.village
+                : village // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            city: freezed == city
+                ? _value.city
+                : city // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            state: freezed == state
+                ? _value.state
+                : state // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            joiningDate: null == joiningDate
+                ? _value.joiningDate
+                : joiningDate // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dailyWage: null == dailyWage
+                ? _value.dailyWage
+                : dailyWage // ignore: cast_nullable_to_non_nullable
+                      as double,
+            overtimeRate: null == overtimeRate
+                ? _value.overtimeRate
+                : overtimeRate // ignore: cast_nullable_to_non_nullable
+                      as double,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as String,
+            defaultProject: freezed == defaultProject
+                ? _value.defaultProject
+                : defaultProject // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            notes: freezed == notes
+                ? _value.notes
+                : notes // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            emergencyContact: freezed == emergencyContact
+                ? _value.emergencyContact
+                : emergencyContact // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            bankName: freezed == bankName
+                ? _value.bankName
+                : bankName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            accountNumber: freezed == accountNumber
+                ? _value.accountNumber
+                : accountNumber // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            ifsc: freezed == ifsc
+                ? _value.ifsc
+                : ifsc // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            upiId: freezed == upiId
+                ? _value.upiId
+                : upiId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$WorkerImplCopyWith<$Res> implements $WorkerCopyWith<$Res> {
   factory _$$WorkerImplCopyWith(
-          _$WorkerImpl value, $Res Function(_$WorkerImpl) then) =
-      __$$WorkerImplCopyWithImpl<$Res>;
+    _$WorkerImpl value,
+    $Res Function(_$WorkerImpl) then,
+  ) = __$$WorkerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      String? photo,
-      @JsonKey(name: 'worker_code') String? workerCode,
-      @JsonKey(name: 'full_name') String fullName,
-      String? phone,
-      @JsonKey(name: 'father_name') String? fatherName,
-      String? address,
-      String? village,
-      String? city,
-      String? state,
-      @JsonKey(name: 'joining_date') String joiningDate,
-      @JsonKey(name: 'daily_wage') double dailyWage,
-      @JsonKey(name: 'overtime_rate') double overtimeRate,
-      String status,
-      @JsonKey(name: 'default_project') String? defaultProject,
-      String? notes,
-      @JsonKey(name: 'emergency_contact') String? emergencyContact,
-      @JsonKey(name: 'bank_name') String? bankName,
-      @JsonKey(name: 'account_number') String? accountNumber,
-      String? ifsc,
-      @JsonKey(name: 'upi_id') String? upiId,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    String? photo,
+    @JsonKey(name: 'worker_code') String? workerCode,
+    @JsonKey(name: 'full_name') String fullName,
+    String? phone,
+    @JsonKey(name: 'father_name') String? fatherName,
+    String? address,
+    String? village,
+    String? city,
+    String? state,
+    @JsonKey(name: 'joining_date') String joiningDate,
+    @JsonKey(name: 'daily_wage') double dailyWage,
+    @JsonKey(name: 'overtime_rate') double overtimeRate,
+    String status,
+    @JsonKey(name: 'default_project') String? defaultProject,
+    String? notes,
+    @JsonKey(name: 'emergency_contact') String? emergencyContact,
+    @JsonKey(name: 'bank_name') String? bankName,
+    @JsonKey(name: 'account_number') String? accountNumber,
+    String? ifsc,
+    @JsonKey(name: 'upi_id') String? upiId,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -274,8 +281,9 @@ class __$$WorkerImplCopyWithImpl<$Res>
     extends _$WorkerCopyWithImpl<$Res, _$WorkerImpl>
     implements _$$WorkerImplCopyWith<$Res> {
   __$$WorkerImplCopyWithImpl(
-      _$WorkerImpl _value, $Res Function(_$WorkerImpl) _then)
-      : super(_value, _then);
+    _$WorkerImpl _value,
+    $Res Function(_$WorkerImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -305,135 +313,138 @@ class __$$WorkerImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$WorkerImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      workerCode: freezed == workerCode
-          ? _value.workerCode
-          : workerCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fatherName: freezed == fatherName
-          ? _value.fatherName
-          : fatherName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      village: freezed == village
-          ? _value.village
-          : village // ignore: cast_nullable_to_non_nullable
-              as String?,
-      city: freezed == city
-          ? _value.city
-          : city // ignore: cast_nullable_to_non_nullable
-              as String?,
-      state: freezed == state
-          ? _value.state
-          : state // ignore: cast_nullable_to_non_nullable
-              as String?,
-      joiningDate: null == joiningDate
-          ? _value.joiningDate
-          : joiningDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      dailyWage: null == dailyWage
-          ? _value.dailyWage
-          : dailyWage // ignore: cast_nullable_to_non_nullable
-              as double,
-      overtimeRate: null == overtimeRate
-          ? _value.overtimeRate
-          : overtimeRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      defaultProject: freezed == defaultProject
-          ? _value.defaultProject
-          : defaultProject // ignore: cast_nullable_to_non_nullable
-              as String?,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      emergencyContact: freezed == emergencyContact
-          ? _value.emergencyContact
-          : emergencyContact // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bankName: freezed == bankName
-          ? _value.bankName
-          : bankName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accountNumber: freezed == accountNumber
-          ? _value.accountNumber
-          : accountNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ifsc: freezed == ifsc
-          ? _value.ifsc
-          : ifsc // ignore: cast_nullable_to_non_nullable
-              as String?,
-      upiId: freezed == upiId
-          ? _value.upiId
-          : upiId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$WorkerImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        photo: freezed == photo
+            ? _value.photo
+            : photo // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        workerCode: freezed == workerCode
+            ? _value.workerCode
+            : workerCode // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        fullName: null == fullName
+            ? _value.fullName
+            : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        phone: freezed == phone
+            ? _value.phone
+            : phone // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        fatherName: freezed == fatherName
+            ? _value.fatherName
+            : fatherName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        address: freezed == address
+            ? _value.address
+            : address // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        village: freezed == village
+            ? _value.village
+            : village // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        city: freezed == city
+            ? _value.city
+            : city // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        state: freezed == state
+            ? _value.state
+            : state // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        joiningDate: null == joiningDate
+            ? _value.joiningDate
+            : joiningDate // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dailyWage: null == dailyWage
+            ? _value.dailyWage
+            : dailyWage // ignore: cast_nullable_to_non_nullable
+                  as double,
+        overtimeRate: null == overtimeRate
+            ? _value.overtimeRate
+            : overtimeRate // ignore: cast_nullable_to_non_nullable
+                  as double,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as String,
+        defaultProject: freezed == defaultProject
+            ? _value.defaultProject
+            : defaultProject // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        notes: freezed == notes
+            ? _value.notes
+            : notes // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        emergencyContact: freezed == emergencyContact
+            ? _value.emergencyContact
+            : emergencyContact // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        bankName: freezed == bankName
+            ? _value.bankName
+            : bankName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        accountNumber: freezed == accountNumber
+            ? _value.accountNumber
+            : accountNumber // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        ifsc: freezed == ifsc
+            ? _value.ifsc
+            : ifsc // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        upiId: freezed == upiId
+            ? _value.upiId
+            : upiId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$WorkerImpl implements _Worker {
-  const _$WorkerImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      this.photo,
-      @JsonKey(name: 'worker_code') this.workerCode,
-      @JsonKey(name: 'full_name') required this.fullName,
-      this.phone,
-      @JsonKey(name: 'father_name') this.fatherName,
-      this.address,
-      this.village,
-      this.city,
-      this.state,
-      @JsonKey(name: 'joining_date') required this.joiningDate,
-      @JsonKey(name: 'daily_wage') this.dailyWage = 0.0,
-      @JsonKey(name: 'overtime_rate') this.overtimeRate = 0.0,
-      this.status = 'Active',
-      @JsonKey(name: 'default_project') this.defaultProject,
-      this.notes,
-      @JsonKey(name: 'emergency_contact') this.emergencyContact,
-      @JsonKey(name: 'bank_name') this.bankName,
-      @JsonKey(name: 'account_number') this.accountNumber,
-      this.ifsc,
-      @JsonKey(name: 'upi_id') this.upiId,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$WorkerImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    this.photo,
+    @JsonKey(name: 'worker_code') this.workerCode,
+    @JsonKey(name: 'full_name') required this.fullName,
+    this.phone,
+    @JsonKey(name: 'father_name') this.fatherName,
+    this.address,
+    this.village,
+    this.city,
+    this.state,
+    @JsonKey(name: 'joining_date') required this.joiningDate,
+    @JsonKey(name: 'daily_wage') this.dailyWage = 0.0,
+    @JsonKey(name: 'overtime_rate') this.overtimeRate = 0.0,
+    this.status = 'Active',
+    @JsonKey(name: 'default_project') this.defaultProject,
+    this.notes,
+    @JsonKey(name: 'emergency_contact') this.emergencyContact,
+    @JsonKey(name: 'bank_name') this.bankName,
+    @JsonKey(name: 'account_number') this.accountNumber,
+    this.ifsc,
+    @JsonKey(name: 'upi_id') this.upiId,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$WorkerImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkerImplFromJson(json);
@@ -554,32 +565,32 @@ class _$WorkerImpl implements _Worker {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        contractorId,
-        photo,
-        workerCode,
-        fullName,
-        phone,
-        fatherName,
-        address,
-        village,
-        city,
-        state,
-        joiningDate,
-        dailyWage,
-        overtimeRate,
-        status,
-        defaultProject,
-        notes,
-        emergencyContact,
-        bankName,
-        accountNumber,
-        ifsc,
-        upiId,
-        createdAt,
-        updatedAt
-      ]);
+    runtimeType,
+    id,
+    contractorId,
+    photo,
+    workerCode,
+    fullName,
+    phone,
+    fatherName,
+    address,
+    village,
+    city,
+    state,
+    joiningDate,
+    dailyWage,
+    overtimeRate,
+    status,
+    defaultProject,
+    notes,
+    emergencyContact,
+    bankName,
+    accountNumber,
+    ifsc,
+    upiId,
+    createdAt,
+    updatedAt,
+  ]);
 
   @JsonKey(ignore: true)
   @override
@@ -589,38 +600,37 @@ class _$WorkerImpl implements _Worker {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$WorkerImplToJson(
-      this,
-    );
+    return _$$WorkerImplToJson(this);
   }
 }
 
 abstract class _Worker implements Worker {
-  const factory _Worker(
-      {required final String id,
-      @JsonKey(name: 'contractor_id') required final String contractorId,
-      final String? photo,
-      @JsonKey(name: 'worker_code') final String? workerCode,
-      @JsonKey(name: 'full_name') required final String fullName,
-      final String? phone,
-      @JsonKey(name: 'father_name') final String? fatherName,
-      final String? address,
-      final String? village,
-      final String? city,
-      final String? state,
-      @JsonKey(name: 'joining_date') required final String joiningDate,
-      @JsonKey(name: 'daily_wage') final double dailyWage,
-      @JsonKey(name: 'overtime_rate') final double overtimeRate,
-      final String status,
-      @JsonKey(name: 'default_project') final String? defaultProject,
-      final String? notes,
-      @JsonKey(name: 'emergency_contact') final String? emergencyContact,
-      @JsonKey(name: 'bank_name') final String? bankName,
-      @JsonKey(name: 'account_number') final String? accountNumber,
-      final String? ifsc,
-      @JsonKey(name: 'upi_id') final String? upiId,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at') final String? updatedAt}) = _$WorkerImpl;
+  const factory _Worker({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    final String? photo,
+    @JsonKey(name: 'worker_code') final String? workerCode,
+    @JsonKey(name: 'full_name') required final String fullName,
+    final String? phone,
+    @JsonKey(name: 'father_name') final String? fatherName,
+    final String? address,
+    final String? village,
+    final String? city,
+    final String? state,
+    @JsonKey(name: 'joining_date') required final String joiningDate,
+    @JsonKey(name: 'daily_wage') final double dailyWage,
+    @JsonKey(name: 'overtime_rate') final double overtimeRate,
+    final String status,
+    @JsonKey(name: 'default_project') final String? defaultProject,
+    final String? notes,
+    @JsonKey(name: 'emergency_contact') final String? emergencyContact,
+    @JsonKey(name: 'bank_name') final String? bankName,
+    @JsonKey(name: 'account_number') final String? accountNumber,
+    final String? ifsc,
+    @JsonKey(name: 'upi_id') final String? upiId,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$WorkerImpl;
 
   factory _Worker.fromJson(Map<String, dynamic> json) = _$WorkerImpl.fromJson;
 

@@ -5,7 +5,13 @@ import '../models/contractor_profile.dart';
 
 abstract class AuthRepository {
   Future<ContractorProfile?> signIn(String email, String password);
-  Future<void> signUp(String email, String password, String fullName, String companyName, String phone);
+  Future<void> signUp(
+    String email,
+    String password,
+    String fullName,
+    String companyName,
+    String phone,
+  );
   Future<void> signOut();
   Future<ContractorProfile?> signInSandbox();
   Future<ContractorProfile?> getCurrentProfile();
@@ -22,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // Listen to Supabase auth state changes
     _client.auth.onAuthStateChange.listen((data) async {
       if (isSandboxMode) return;
-      
+
       final user = data.session?.user;
       if (user == null) {
         _controller.add(null);
@@ -42,7 +48,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  bool get isSandboxMode => _settingsBox.get('is_sandbox', defaultValue: false) as bool;
+  bool get isSandboxMode =>
+      _settingsBox.get('is_sandbox', defaultValue: false) as bool;
 
   @override
   Stream<ContractorProfile?> get onAuthStateChanged => _controller.stream;
@@ -52,10 +59,10 @@ class AuthRepositoryImpl implements AuthRepository {
     if (isSandboxMode) {
       return _getSandboxProfile();
     }
-    
+
     final user = _client.auth.currentUser;
     if (user == null) return null;
-    
+
     return _fetchProfile(user.id);
   }
 
@@ -109,7 +116,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signUp(String email, String password, String fullName, String companyName, String phone) async {
+  Future<void> signUp(
+    String email,
+    String password,
+    String fullName,
+    String companyName,
+    String phone,
+  ) async {
     await _client.auth.signUp(
       email: email,
       password: password,

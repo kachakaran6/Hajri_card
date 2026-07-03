@@ -58,13 +58,16 @@ class WorkersNotifier extends StateNotifier<List<Worker>> {
         .from('workers')
         .stream(primaryKey: ['id'])
         .eq('contractor_id', _contractorId)
-        .listen((data) {
-      if (mounted) {
-        state = data.map((e) => Worker.fromJson(e)).toList();
-      }
-    }, onError: (err) {
-      // Ignore realtime subscribe errors
-    });
+        .listen(
+          (data) {
+            if (mounted) {
+              state = data.map((e) => Worker.fromJson(e)).toList();
+            }
+          },
+          onError: (err) {
+            // Ignore realtime subscribe errors
+          },
+        );
   }
 
   @override
@@ -74,11 +77,12 @@ class WorkersNotifier extends StateNotifier<List<Worker>> {
   }
 }
 
-final workersStreamProvider = StateNotifierProvider<WorkersNotifier, List<Worker>>((ref) {
-  final profile = ref.watch(authControllerProvider).valueOrNull;
-  final contractorId = profile?.id ?? '';
-  return WorkersNotifier(Supabase.instance.client, contractorId);
-});
+final workersStreamProvider =
+    StateNotifierProvider<WorkersNotifier, List<Worker>>((ref) {
+      final profile = ref.watch(authControllerProvider).valueOrNull;
+      final contractorId = profile?.id ?? '';
+      return WorkersNotifier(Supabase.instance.client, contractorId);
+    });
 
 class WorkerBalanceNotifier extends StateNotifier<double> {
   final SupabaseClient _client;
@@ -95,17 +99,20 @@ class WorkerBalanceNotifier extends StateNotifier<double> {
         .from('monthly_summary')
         .stream(primaryKey: ['id'])
         .eq('worker_id', _workerId)
-        .listen((data) {
-      if (mounted) {
-        double totalBalance = 0;
-        for (final row in data) {
-          totalBalance += (row['balance'] as num?)?.toDouble() ?? 0.0;
-        }
-        state = totalBalance;
-      }
-    }, onError: (err) {
-      // Ignore realtime subscribe errors
-    });
+        .listen(
+          (data) {
+            if (mounted) {
+              double totalBalance = 0;
+              for (final row in data) {
+                totalBalance += (row['balance'] as num?)?.toDouble() ?? 0.0;
+              }
+              state = totalBalance;
+            }
+          },
+          onError: (err) {
+            // Ignore realtime subscribe errors
+          },
+        );
   }
 
   @override
@@ -115,6 +122,10 @@ class WorkerBalanceNotifier extends StateNotifier<double> {
   }
 }
 
-final workerBalanceProvider = StateNotifierProvider.family<WorkerBalanceNotifier, double, String>((ref, workerId) {
-  return WorkerBalanceNotifier(Supabase.instance.client, workerId);
-});
+final workerBalanceProvider =
+    StateNotifierProvider.family<WorkerBalanceNotifier, double, String>((
+      ref,
+      workerId,
+    ) {
+      return WorkerBalanceNotifier(Supabase.instance.client, workerId);
+    });

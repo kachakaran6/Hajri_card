@@ -18,7 +18,7 @@ class LoginScreen extends HookConsumerWidget {
     final nameController = useTextEditingController();
     final companyController = useTextEditingController();
     final phoneController = useTextEditingController();
-    
+
     final isLoading = useState(false);
     final errorMessage = useState<String?>(null);
 
@@ -32,12 +32,16 @@ class LoginScreen extends HookConsumerWidget {
 
       try {
         if (isSignIn.value) {
-          await ref.read(authControllerProvider.notifier).signIn(
+          await ref
+              .read(authControllerProvider.notifier)
+              .signIn(
                 emailController.text.trim(),
                 passwordController.text.trim(),
               );
         } else {
-          await ref.read(authControllerProvider.notifier).signUp(
+          await ref
+              .read(authControllerProvider.notifier)
+              .signUp(
                 emailController.text.trim(),
                 passwordController.text.trim(),
                 nameController.text.trim(),
@@ -91,7 +95,9 @@ class LoginScreen extends HookConsumerWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28),
                   side: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                    color: isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
                     width: 1,
                   ),
                 ),
@@ -132,11 +138,11 @@ class LoginScreen extends HookConsumerWidget {
                         ),
                       ).animate().scale(delay: 100.ms, duration: 300.ms),
                       const SizedBox(height: 16),
-                      
+
                       // Heading
                       Text(
-                        isSignIn.value 
-                            ? 'Sign in to Rojgar' 
+                        isSignIn.value
+                            ? 'Sign in to Rojgar'
                             : 'Create Contractor Account',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineMedium,
@@ -157,7 +163,9 @@ class LoginScreen extends HookConsumerWidget {
                           decoration: BoxDecoration(
                             color: AppColors.errorBg,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.error.withAlpha(76)),
+                            border: Border.all(
+                              color: AppColors.error.withAlpha(76),
+                            ),
                           ),
                           child: Text(
                             errorMessage.value!,
@@ -237,11 +245,15 @@ class LoginScreen extends HookConsumerWidget {
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : Text(
-                                isSignIn.value ? 'Sign In' : 'Register Contractor',
+                                isSignIn.value
+                                    ? 'Sign In'
+                                    : 'Register Contractor',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -259,7 +271,9 @@ class LoginScreen extends HookConsumerWidget {
                           child: RichText(
                             text: TextSpan(
                               style: TextStyle(
-                                color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
                                 fontSize: 13,
                               ),
                               children: [
@@ -287,23 +301,31 @@ class LoginScreen extends HookConsumerWidget {
                         children: [
                           Expanded(
                             child: Divider(
-                              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.lightBorder,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
                             child: Text(
                               'OR SANDBOX',
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
-                                color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
                               ),
                             ),
                           ),
                           Expanded(
                             child: Divider(
-                              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.lightBorder,
                             ),
                           ),
                         ],
@@ -319,7 +341,9 @@ class LoginScreen extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           side: BorderSide(
-                            color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.lightBorder,
                           ),
                         ),
                         child: Text(

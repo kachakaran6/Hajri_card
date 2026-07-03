@@ -27,5 +27,6 @@ class MonthlySummary with _$MonthlySummary {
     @JsonKey(name: 'updated_at') String? updatedAt,
   }) = _MonthlySummary;
 
-  factory MonthlySummary.fromJson(Map<String, dynamic> json) => _$MonthlySummaryFromJson(json);
+  factory MonthlySummary.fromJson(Map<String, dynamic> json) =>
+      _$MonthlySummaryFromJson(json);
 }

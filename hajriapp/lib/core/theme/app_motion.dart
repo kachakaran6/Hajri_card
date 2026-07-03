@@ -17,20 +17,21 @@ class AppMotion {
       transitionDuration: standardDuration,
       reverseTransitionDuration: standardDuration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final tween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
-            .chain(CurveTween(curve: standardCurve));
+        final tween = Tween(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).chain(CurveTween(curve: standardCurve));
         final offsetAnimation = animation.drive(tween);
-        
-        final fadeTween = Tween(begin: 0.0, end: 1.0)
-            .chain(CurveTween(curve: standardCurve));
+
+        final fadeTween = Tween(
+          begin: 0.0,
+          end: 1.0,
+        ).chain(CurveTween(curve: standardCurve));
         final fadeAnimation = animation.drive(fadeTween);
 
         return SlideTransition(
           position: offsetAnimation,
-          child: FadeTransition(
-            opacity: fadeAnimation,
-            child: child,
-          ),
+          child: FadeTransition(opacity: fadeAnimation, child: child),
         );
       },
     );

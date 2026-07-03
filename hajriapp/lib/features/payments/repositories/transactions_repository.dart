@@ -38,15 +38,23 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     await _client.from('transactions').upsert(data);
 
     final date = DateTime.parse(transactionWithContractor.transactionDate);
-    await recalculateMonthlySummary(transactionWithContractor.workerId, date.month, date.year);
+    await recalculateMonthlySummary(
+      transactionWithContractor.workerId,
+      date.month,
+      date.year,
+    );
   }
 
   @override
   Future<void> deleteTransaction(String id) async {
-    final tData = await _client.from('transactions').select().eq('id', id).maybeSingle();
+    final tData = await _client
+        .from('transactions')
+        .select()
+        .eq('id', id)
+        .maybeSingle();
     if (tData != null) {
       final t = Transaction.fromJson(tData);
-      
+
       await _client.from('transactions').delete().eq('id', id);
 
       final date = DateTime.parse(t.transactionDate);
@@ -55,16 +63,30 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
   }
 
   @override
-  Future<void> recalculateMonthlySummary(String workerId, int month, int year) async {
-    final startDate = DateTime(year, month, 1).toIso8601String().substring(0, 10);
-    final endDate = DateTime(year, month + 1, 0).toIso8601String().substring(0, 10);
+  Future<void> recalculateMonthlySummary(
+    String workerId,
+    int month,
+    int year,
+  ) async {
+    final startDate = DateTime(
+      year,
+      month,
+      1,
+    ).toIso8601String().substring(0, 10);
+    final endDate = DateTime(
+      year,
+      month + 1,
+      0,
+    ).toIso8601String().substring(0, 10);
 
     // 1. Gather all attendance stats for the month/year
-    final attData = await _client.from('attendance').select()
-      .eq('worker_id', workerId)
-      .gte('date', startDate)
-      .lte('date', endDate);
-      
+    final attData = await _client
+        .from('attendance')
+        .select()
+        .eq('worker_id', workerId)
+        .gte('date', startDate)
+        .lte('date', endDate);
+
     final attList = attData.map((e) => Attendance.fromJson(e)).toList();
 
     double present = 0;
@@ -103,7 +125,10 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
 
     if (attList.isNotEmpty) {
       final attIds = attList.map((a) => a.id).toList();
-      final wageData = await _client.from('daily_wages').select().inFilter('attendance_id', attIds);
+      final wageData = await _client
+          .from('daily_wages')
+          .select()
+          .inFilter('attendance_id', attIds);
       final wageValues = wageData.map((e) => DailyWage.fromJson(e)).toList();
 
       for (final wage in wageValues) {
@@ -117,11 +142,13 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     double advance = 0;
     double paid = 0;
 
-    final transData = await _client.from('transactions').select()
-      .eq('worker_id', workerId)
-      .gte('transaction_date', startDate)
-      .lte('transaction_date', endDate);
-      
+    final transData = await _client
+        .from('transactions')
+        .select()
+        .eq('worker_id', workerId)
+        .gte('transaction_date', startDate)
+        .lte('transaction_date', endDate);
+
     final transList = transData.map((e) => Transaction.fromJson(e)).toList();
 
     for (final t in transList) {
@@ -136,13 +163,17 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     final balance = grossAmount - advance - paid;
 
     // Search existing summary
-    final summaryData = await _client.from('monthly_summary').select('id')
-      .eq('worker_id', workerId)
-      .eq('month', month)
-      .eq('year', year)
-      .maybeSingle();
+    final summaryData = await _client
+        .from('monthly_summary')
+        .select('id')
+        .eq('worker_id', workerId)
+        .eq('month', month)
+        .eq('year', year)
+        .maybeSingle();
 
-    final summaryId = summaryData != null ? summaryData['id'] as String : const Uuid().v4();
+    final summaryId = summaryData != null
+        ? summaryData['id'] as String
+        : const Uuid().v4();
 
     final summary = MonthlySummary(
       id: summaryId,
@@ -183,29 +214,40 @@ class TransactionsNotifier extends StateNotifier<List<Transaction>> {
   final String? _projectId;
   StreamSubscription? _subscription;
 
-  TransactionsNotifier(this._client, this._contractorId, this._workerId, this._projectId) : super([]) {
+  TransactionsNotifier(
+    this._client,
+    this._contractorId,
+    this._workerId,
+    this._projectId,
+  ) : super([]) {
     _initStream();
   }
 
   void _initStream() {
     if (_contractorId.isEmpty) return;
-    
-    var query = _client.from('transactions').stream(primaryKey: ['id']).eq('contractor_id', _contractorId);
-    
-    _subscription = query.listen((data) {
-      if (mounted) {
-        var all = data.map((e) => Transaction.fromJson(e)).toList();
-        if (_workerId != null) {
-          all = all.where((t) => t.workerId == _workerId).toList();
+
+    var query = _client
+        .from('transactions')
+        .stream(primaryKey: ['id'])
+        .eq('contractor_id', _contractorId);
+
+    _subscription = query.listen(
+      (data) {
+        if (mounted) {
+          var all = data.map((e) => Transaction.fromJson(e)).toList();
+          if (_workerId != null) {
+            all = all.where((t) => t.workerId == _workerId).toList();
+          }
+          if (_projectId != null) {
+            all = all.where((t) => t.projectId == _projectId).toList();
+          }
+          state = all;
         }
-        if (_projectId != null) {
-          all = all.where((t) => t.projectId == _projectId).toList();
-        }
-        state = all;
-      }
-    }, onError: (err) {
-      // Ignore realtime subscribe errors
-    });
+      },
+      onError: (err) {
+        // Ignore realtime subscribe errors
+      },
+    );
   }
 
   @override
@@ -215,9 +257,19 @@ class TransactionsNotifier extends StateNotifier<List<Transaction>> {
   }
 }
 
-final transactionsStreamProvider = StateNotifierProvider.family<TransactionsNotifier, List<Transaction>, Map<String, String?>>((ref, params) {
-  final profile = ref.watch(authControllerProvider).valueOrNull;
-  final workerId = params['workerId'];
-  final projectId = params['projectId'];
-  return TransactionsNotifier(Supabase.instance.client, profile?.id ?? '', workerId, projectId);
-});
+final transactionsStreamProvider =
+    StateNotifierProvider.family<
+      TransactionsNotifier,
+      List<Transaction>,
+      Map<String, String?>
+    >((ref, params) {
+      final profile = ref.watch(authControllerProvider).valueOrNull;
+      final workerId = params['workerId'];
+      final projectId = params['projectId'];
+      return TransactionsNotifier(
+        Supabase.instance.client,
+        profile?.id ?? '',
+        workerId,
+        projectId,
+      );
+    });

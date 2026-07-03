@@ -25,20 +25,21 @@ CustomTransitionPage<T> buildPageWithDefaultTransition<T>({
     transitionDuration: AppMotion.standardDuration,
     reverseTransitionDuration: AppMotion.standardDuration,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final tween = Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
-          .chain(CurveTween(curve: AppMotion.standardCurve));
+      final tween = Tween(
+        begin: const Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).chain(CurveTween(curve: AppMotion.standardCurve));
       final offsetAnimation = animation.drive(tween);
-      
-      final fadeTween = Tween(begin: 0.0, end: 1.0)
-          .chain(CurveTween(curve: AppMotion.standardCurve));
+
+      final fadeTween = Tween(
+        begin: 0.0,
+        end: 1.0,
+      ).chain(CurveTween(curve: AppMotion.standardCurve));
       final fadeAnimation = animation.drive(fadeTween);
 
       return SlideTransition(
         position: offsetAnimation,
-        child: FadeTransition(
-          opacity: fadeAnimation,
-          child: child,
-        ),
+        child: FadeTransition(opacity: fadeAnimation, child: child),
       );
     },
   );
@@ -51,6 +52,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
+      if (authState.isLoading) {
+        return '/splash';
+      }
       final loggingIn = state.matchedLocation == '/login';
       if (!isAuthed && !loggingIn) {
         return '/login';
@@ -58,9 +62,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (isAuthed && loggingIn) {
         return '/';
       }
+      if (isAuthed && state.matchedLocation == '/splash') {
+        return '/';
+      }
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/splash',
+        pageBuilder: (context, state) => buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: Scaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: const Center(child: CircularProgressIndicator()),
+          ),
+        ),
+      ),
       GoRoute(
         path: '/login',
         pageBuilder: (context, state) => buildPageWithDefaultTransition(

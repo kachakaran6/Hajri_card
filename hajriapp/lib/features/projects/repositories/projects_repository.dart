@@ -58,13 +58,16 @@ class ProjectsNotifier extends StateNotifier<List<Project>> {
         .from('projects')
         .stream(primaryKey: ['id'])
         .eq('contractor_id', _contractorId)
-        .listen((data) {
-      if (mounted) {
-        state = data.map((e) => Project.fromJson(e)).toList();
-      }
-    }, onError: (err) {
-      // Ignore realtime subscribe errors
-    });
+        .listen(
+          (data) {
+            if (mounted) {
+              state = data.map((e) => Project.fromJson(e)).toList();
+            }
+          },
+          onError: (err) {
+            // Ignore realtime subscribe errors
+          },
+        );
   }
 
   @override
@@ -74,11 +77,12 @@ class ProjectsNotifier extends StateNotifier<List<Project>> {
   }
 }
 
-final projectsStreamProvider = StateNotifierProvider<ProjectsNotifier, List<Project>>((ref) {
-  final profile = ref.watch(authControllerProvider).valueOrNull;
-  final contractorId = profile?.id ?? '';
-  return ProjectsNotifier(Supabase.instance.client, contractorId);
-});
+final projectsStreamProvider =
+    StateNotifierProvider<ProjectsNotifier, List<Project>>((ref) {
+      final profile = ref.watch(authControllerProvider).valueOrNull;
+      final contractorId = profile?.id ?? '';
+      return ProjectsNotifier(Supabase.instance.client, contractorId);
+    });
 
 // Holds the currently selected project for operations
 final activeProjectProvider = StateProvider<Project?>((ref) {

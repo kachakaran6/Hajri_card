@@ -10,9 +10,12 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'contractor_id') required String contractorId,
     @JsonKey(name: 'worker_id') required String workerId,
     @JsonKey(name: 'project_id') String? projectId,
-    @JsonKey(name: 'transaction_type') required String transactionType, // 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
+    @JsonKey(name: 'transaction_type')
+    required String
+    transactionType, // 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
     @Default(0.0) double amount,
-    @JsonKey(name: 'payment_method') required String paymentMethod, // 'Cash', 'UPI', 'Bank', 'Cheque'
+    @JsonKey(name: 'payment_method')
+    required String paymentMethod, // 'Cash', 'UPI', 'Bank', 'Cheque'
     @JsonKey(name: 'reference_number') String? referenceNumber,
     @JsonKey(name: 'transaction_date') required String transactionDate,
     String? remarks,
@@ -20,5 +23,6 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'updated_at') String? updatedAt,
   }) = _Transaction;
 
-  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
 }

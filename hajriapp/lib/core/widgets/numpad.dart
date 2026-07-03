@@ -30,14 +30,21 @@ class Numpad extends StatelessWidget {
         ])
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: row.map((key) => _buildKey(context, key, () => onKeyTap(key))).toList(),
+            children: row
+                .map((key) => _buildKey(context, key, () => onKeyTap(key)))
+                .toList(),
           ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildKey(context, 'C', onClear, color: Colors.grey),
             _buildKey(context, '0', () => onKeyTap('0')),
-            _buildKey(context, '⌫', onBackspace, icon: Icons.backspace_outlined),
+            _buildKey(
+              context,
+              '⌫',
+              onBackspace,
+              icon: Icons.backspace_outlined,
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -48,17 +55,28 @@ class Numpad extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: submitColor ?? Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
             ),
             onPressed: onSubmit,
-            child: Text(submitLabel, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            child: Text(
+              submitLabel,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildKey(BuildContext context, String label, VoidCallback onTap, {IconData? icon, Color? color}) {
+  Widget _buildKey(
+    BuildContext context,
+    String label,
+    VoidCallback onTap, {
+    IconData? icon,
+    Color? color,
+  }) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -70,17 +88,25 @@ class Numpad extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.1)),
+              border: Border.all(
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+              ),
             ),
             alignment: Alignment.center,
             child: icon != null
-                ? Icon(icon, size: 28, color: color ?? Theme.of(context).textTheme.bodyLarge?.color)
+                ? Icon(
+                    icon,
+                    size: 28,
+                    color:
+                        color ?? Theme.of(context).textTheme.bodyLarge?.color,
+                  )
                 : Text(
                     label,
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
+                      color:
+                          color ?? Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
           ),

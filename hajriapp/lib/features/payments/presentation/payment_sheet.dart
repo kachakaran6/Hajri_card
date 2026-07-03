@@ -40,8 +40,12 @@ class PaymentSheet extends HookConsumerWidget {
       );
 
       final navigator = Navigator.of(context);
-      await ref.read(transactionsRepositoryProvider).saveTransaction(transaction);
-      ref.invalidate(transactionsStreamProvider({'workerId': worker.id, 'projectId': null}));
+      await ref
+          .read(transactionsRepositoryProvider)
+          .saveTransaction(transaction);
+      ref.invalidate(
+        transactionsStreamProvider({'workerId': worker.id, 'projectId': null}),
+      );
       ref.invalidate(workerBalanceProvider(worker.id));
       navigator.pop();
     }
@@ -54,7 +58,10 @@ class PaymentSheet extends HookConsumerWidget {
 
     void onBackspace() {
       if (amountText.value.isNotEmpty) {
-        amountText.value = amountText.value.substring(0, amountText.value.length - 1);
+        amountText.value = amountText.value.substring(
+          0,
+          amountText.value.length - 1,
+        );
       }
     }
 
@@ -139,7 +146,7 @@ class PaymentSheet extends HookConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Worker: ${worker.fullName}', 
+              'Worker: ${worker.fullName}',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
               textAlign: TextAlign.center,
             ),
@@ -157,7 +164,9 @@ class PaymentSheet extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
-                  color: transactionType.value == 'Salary' ? AppColors.success : AppColors.warning,
+                  color: transactionType.value == 'Salary'
+                      ? AppColors.success
+                      : AppColors.warning,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -171,7 +180,9 @@ class PaymentSheet extends HookConsumerWidget {
               onClear: onClear,
               onSubmit: handleSave,
               submitLabel: 'SAVE ${transactionType.value.toUpperCase()}',
-              submitColor: transactionType.value == 'Salary' ? AppColors.success : AppColors.warning,
+              submitColor: transactionType.value == 'Salary'
+                  ? AppColors.success
+                  : AppColors.warning,
             ),
           ],
         ),

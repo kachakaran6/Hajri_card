@@ -46,8 +46,14 @@ class AppTheme {
         backgroundColor: AppColors.lightSurface,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.lightTextSecondary,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
+        ),
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
@@ -60,7 +66,10 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFFF4F4F5), // zinc-100
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -82,15 +91,44 @@ class AppTheme {
           fontSize: 14,
         ),
       ),
-      fontFamily: 'Outfit', // A fallback to modern font, using default sans-serif if not bundled
+      fontFamily:
+          'Outfit', // A fallback to modern font, using default sans-serif if not bundled
       textTheme: const TextTheme(
-        headlineLarge: TextStyle(fontWeight: FontWeight.w900, color: AppColors.lightTextPrimary, fontSize: 32),
-        headlineMedium: TextStyle(fontWeight: FontWeight.w900, color: AppColors.lightTextPrimary, fontSize: 24),
-        titleLarge: TextStyle(fontWeight: FontWeight.w800, color: AppColors.lightTextPrimary, fontSize: 18),
-        titleMedium: TextStyle(fontWeight: FontWeight.bold, color: AppColors.lightTextPrimary, fontSize: 16),
-        bodyLarge: TextStyle(fontWeight: FontWeight.normal, color: AppColors.lightTextPrimary, fontSize: 14),
-        bodyMedium: TextStyle(fontWeight: FontWeight.normal, color: AppColors.lightTextSecondary, fontSize: 13),
-        labelLarge: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary, fontSize: 14),
+        headlineLarge: TextStyle(
+          fontWeight: FontWeight.w900,
+          color: AppColors.lightTextPrimary,
+          fontSize: 32,
+        ),
+        headlineMedium: TextStyle(
+          fontWeight: FontWeight.w900,
+          color: AppColors.lightTextPrimary,
+          fontSize: 24,
+        ),
+        titleLarge: TextStyle(
+          fontWeight: FontWeight.w800,
+          color: AppColors.lightTextPrimary,
+          fontSize: 18,
+        ),
+        titleMedium: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightTextPrimary,
+          fontSize: 16,
+        ),
+        bodyLarge: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: AppColors.lightTextPrimary,
+          fontSize: 14,
+        ),
+        bodyMedium: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: AppColors.lightTextSecondary,
+          fontSize: 13,
+        ),
+        labelLarge: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.primary,
+          fontSize: 14,
+        ),
       ),
     );
   }
@@ -139,8 +177,14 @@ class AppTheme {
         backgroundColor: AppColors.darkSurface,
         selectedItemColor: AppColors.primaryLight,
         unselectedItemColor: AppColors.darkTextSecondary,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
+        ),
         type: BottomNavigationBarType.fixed,
         elevation: 8,
       ),
@@ -153,7 +197,10 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF27272A), // zinc-800
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -177,13 +224,41 @@ class AppTheme {
       ),
       fontFamily: 'Outfit',
       textTheme: const TextTheme(
-        headlineLarge: TextStyle(fontWeight: FontWeight.w900, color: AppColors.darkTextPrimary, fontSize: 32),
-        headlineMedium: TextStyle(fontWeight: FontWeight.w900, color: AppColors.darkTextPrimary, fontSize: 24),
-        titleLarge: TextStyle(fontWeight: FontWeight.w800, color: AppColors.darkTextPrimary, fontSize: 18),
-        titleMedium: TextStyle(fontWeight: FontWeight.bold, color: AppColors.darkTextPrimary, fontSize: 16),
-        bodyLarge: TextStyle(fontWeight: FontWeight.normal, color: AppColors.darkTextPrimary, fontSize: 14),
-        bodyMedium: TextStyle(fontWeight: FontWeight.normal, color: AppColors.darkTextSecondary, fontSize: 13),
-        labelLarge: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryLight, fontSize: 14),
+        headlineLarge: TextStyle(
+          fontWeight: FontWeight.w900,
+          color: AppColors.darkTextPrimary,
+          fontSize: 32,
+        ),
+        headlineMedium: TextStyle(
+          fontWeight: FontWeight.w900,
+          color: AppColors.darkTextPrimary,
+          fontSize: 24,
+        ),
+        titleLarge: TextStyle(
+          fontWeight: FontWeight.w800,
+          color: AppColors.darkTextPrimary,
+          fontSize: 18,
+        ),
+        titleMedium: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkTextPrimary,
+          fontSize: 16,
+        ),
+        bodyLarge: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: AppColors.darkTextPrimary,
+          fontSize: 14,
+        ),
+        bodyMedium: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: AppColors.darkTextSecondary,
+          fontSize: 13,
+        ),
+        labelLarge: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.primaryLight,
+          fontSize: 14,
+        ),
       ),
     );
   }

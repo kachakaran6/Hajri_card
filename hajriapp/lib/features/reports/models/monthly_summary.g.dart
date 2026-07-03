@@ -30,25 +30,25 @@ _$MonthlySummaryImpl _$$MonthlySummaryImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$MonthlySummaryImplToJson(
-        _$MonthlySummaryImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'contractor_id': instance.contractorId,
-      'worker_id': instance.workerId,
-      'month': instance.month,
-      'year': instance.year,
-      'present_days': instance.presentDays,
-      'half_days': instance.halfDays,
-      'leave_days': instance.leaveDays,
-      'absent_days': instance.absentDays,
-      'holiday_days': instance.holidayDays,
-      'overtime_hours': instance.overtimeHours,
-      'gross_amount': instance.grossAmount,
-      'bonus': instance.bonus,
-      'deduction': instance.deduction,
-      'advance': instance.advance,
-      'paid': instance.paid,
-      'balance': instance.balance,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
-    };
+  _$MonthlySummaryImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'contractor_id': instance.contractorId,
+  'worker_id': instance.workerId,
+  'month': instance.month,
+  'year': instance.year,
+  'present_days': instance.presentDays,
+  'half_days': instance.halfDays,
+  'leave_days': instance.leaveDays,
+  'absent_days': instance.absentDays,
+  'holiday_days': instance.holidayDays,
+  'overtime_hours': instance.overtimeHours,
+  'gross_amount': instance.grossAmount,
+  'bonus': instance.bonus,
+  'deduction': instance.deduction,
+  'advance': instance.advance,
+  'paid': instance.paid,
+  'balance': instance.balance,
+  'created_at': instance.createdAt,
+  'updated_at': instance.updatedAt,
+};

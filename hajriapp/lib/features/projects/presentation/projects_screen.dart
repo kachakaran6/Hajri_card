@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 
 import '../models/project.dart';
 import '../repositories/projects_repository.dart';
@@ -27,160 +28,191 @@ class ProjectsScreen extends HookConsumerWidget {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.projects),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => showAddProjectSheet(),
-          ),
-        ],
-      ),
-      body: projects.isEmpty
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.business_center_outlined,
-                      size: 64,
-                      color: isDark ? Colors.white30 : Colors.black26,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      AppLocalizations.of(context)!.noProjects,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : ListView.builder(
-              itemCount: projects.length,
-              padding: const EdgeInsets.only(bottom: 24, top: 8),
-              itemBuilder: (context, index) {
-                final project = projects[index];
-                final isActive = activeProject?.id == project.id;
-
-                return Slidable(
-                  key: ValueKey(project.id),
-                  endActionPane: ActionPane(
-                    motion: const DrawerMotion(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.go('/');
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.projects),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () => showAddProjectSheet(),
+            ),
+          ],
+        ),
+        body: projects.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SlidableAction(
-                        onPressed: (context) => showAddProjectSheet(project),
-                        backgroundColor: AppColors.info,
-                        foregroundColor: Colors.white,
-                        icon: Icons.edit,
-                        label: AppLocalizations.of(context)!.edit,
+                      Icon(
+                        Icons.business_center_outlined,
+                        size: 64,
+                        color: isDark ? Colors.white30 : Colors.black26,
                       ),
-                      SlidableAction(
-                        onPressed: (context) async {
-                          final confirm = await showDialog<bool>(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(AppLocalizations.of(context)!.delete),
-                              content: Text(AppLocalizations.of(context)!.confirmDelete),
-                              actions: [
-                                TextButton(
-                                  child: Text(AppLocalizations.of(context)!.cancel),
-                                  onPressed: () => Navigator.pop(context, false),
-                                ),
-                                TextButton(
-                                  child: Text(AppLocalizations.of(context)!.delete),
-                                  onPressed: () => Navigator.pop(context, true),
-                                ),
-                              ],
-                            ),
-                          );
-                          if (confirm == true) {
-                            if (isActive) {
-                              ref.read(activeProjectProvider.notifier).state = null;
-                            }
-                            await ref.read(projectsRepositoryProvider).deleteProject(project.id);
-                            ref.invalidate(projectsStreamProvider);
-                          }
-                        },
-                        backgroundColor: AppColors.error,
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: AppLocalizations.of(context)!.delete,
+                      const SizedBox(height: 16),
+                      Text(
+                        AppLocalizations.of(context)!.noProjects,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ],
                   ),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                        color: isActive
-                            ? AppColors.primary
-                            : isDark
-                                ? AppColors.darkBorder
-                                : AppColors.lightBorder,
-                        width: isActive ? 2 : 1,
-                      ),
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      leading: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: isActive ? AppColors.primary : AppColors.primary.withAlpha(20),
-                          borderRadius: BorderRadius.circular(12),
+                ),
+              )
+            : ListView.builder(
+                itemCount: projects.length,
+                padding: const EdgeInsets.only(bottom: 24, top: 8),
+                itemBuilder: (context, index) {
+                  final project = projects[index];
+                  final isActive = activeProject?.id == project.id;
+
+                  return Slidable(
+                    key: ValueKey(project.id),
+                    endActionPane: ActionPane(
+                      motion: const DrawerMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) => showAddProjectSheet(project),
+                          backgroundColor: AppColors.info,
+                          foregroundColor: Colors.white,
+                          icon: Icons.edit,
+                          label: AppLocalizations.of(context)!.edit,
                         ),
-                        child: Icon(
-                          Icons.business_center,
-                          color: isActive ? Colors.white : AppColors.primary,
-                        ),
-                      ),
-                      title: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              project.name,
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontSize: 16,
+                        SlidableAction(
+                          onPressed: (context) async {
+                            final confirm = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  AppLocalizations.of(context)!.delete,
+                                ),
+                                content: Text(
+                                  AppLocalizations.of(context)!.confirmDelete,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      AppLocalizations.of(context)!.cancel,
+                                    ),
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
                                   ),
-                            ),
-                          ),
-                          if (isActive)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withAlpha(40),
-                                borderRadius: BorderRadius.circular(12),
+                                  TextButton(
+                                    child: Text(
+                                      AppLocalizations.of(context)!.delete,
+                                    ),
+                                    onPressed: () =>
+                                        Navigator.pop(context, true),
+                                  ),
+                                ],
                               ),
+                            );
+                            if (confirm == true) {
+                              if (isActive) {
+                                ref.read(activeProjectProvider.notifier).state =
+                                    null;
+                              }
+                              await ref
+                                  .read(projectsRepositoryProvider)
+                                  .deleteProject(project.id);
+                              ref.invalidate(projectsStreamProvider);
+                            }
+                          },
+                          backgroundColor: AppColors.error,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: AppLocalizations.of(context)!.delete,
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                          color: isActive
+                              ? AppColors.primary
+                              : isDark
+                              ? AppColors.darkBorder
+                              : AppColors.lightBorder,
+                          width: isActive ? 2 : 1,
+                        ),
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        leading: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: isActive
+                                ? AppColors.primary
+                                : AppColors.primary.withAlpha(20),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            Icons.business_center,
+                            color: isActive ? Colors.white : AppColors.primary,
+                          ),
+                        ),
+                        title: Row(
+                          children: [
+                            Expanded(
                               child: Text(
-                                AppLocalizations.of(context)!.active.toUpperCase(),
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.bold,
+                                project.name,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleLarge?.copyWith(fontSize: 16),
+                              ),
+                            ),
+                            if (isActive)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withAlpha(40),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.active.toUpperCase(),
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                        ],
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          project.location ?? 'No location added',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          ],
                         ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            project.location ?? 'No location added',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                        onTap: () {
+                          ref.read(activeProjectProvider.notifier).state =
+                              project;
+                        },
                       ),
-                      onTap: () {
-                        ref.read(activeProjectProvider.notifier).state = project;
-                      },
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }
@@ -193,7 +225,9 @@ class AddProjectSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nameController = useTextEditingController(text: project?.name);
-    final locationController = useTextEditingController(text: project?.location);
+    final locationController = useTextEditingController(
+      text: project?.location,
+    );
     final notesController = useTextEditingController(text: project?.notes);
 
     void handleSave() async {
@@ -243,7 +277,9 @@ class AddProjectSheet extends HookConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            project == null ? AppLocalizations.of(context)!.addProject : AppLocalizations.of(context)!.edit,
+            project == null
+                ? AppLocalizations.of(context)!.addProject
+                : AppLocalizations.of(context)!.edit,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(height: 16),

@@ -21,7 +21,8 @@ class Translations {
       'save': "Save",
       'cancel': "Cancel",
       'searchPlaceholder': "Search by Name, Phone, Village...",
-      'emptyLabourList': "No workers added yet. Tap the '+' button to add your first worker!",
+      'emptyLabourList':
+          "No workers added yet. Tap the '+' button to add your first worker!",
       'present': "Present",
       'absent': "Absent",
       'halfDay': "Half Day",
@@ -92,7 +93,8 @@ class Translations {
       'morningNotification': "Time to take today's attendance!",
       'eveningNotification': "Check today's pending payments.",
       'digitalHajriCardMode': "Digital Hajri Card Mode",
-      'paperCardHelper': "Tap on any day in the grid to log attendance or salary transactions.",
+      'paperCardHelper':
+          "Tap on any day in the grid to log attendance or salary transactions.",
       'totalWage': "Total Wage",
       'remaining': "Remaining",
       'chooseLanguage': "Choose Language",
@@ -116,7 +118,8 @@ class Translations {
       'workerCode': "Worker Code",
       'photoUrl': "Photo URL",
       'defaultProject': "Default Project",
-      'confirmDelete': "Are you sure you want to delete this worker? This action cannot be undone.",
+      'confirmDelete':
+          "Are you sure you want to delete this worker? This action cannot be undone.",
       'recordsFound': "records found",
       'allWorkers': "All Workers",
       'multipleSelect': "Multiple Select",
@@ -146,7 +149,8 @@ class Translations {
       'save': "सुरक्षित करें",
       'cancel': "रद्द करें",
       'searchPlaceholder': "नाम, फोन, गाँव से खोजें...",
-      'emptyLabourList': "कोई लेबर नहीं जोड़ा गया है। पहला लेबर जोड़ने के लिए '+' दबाएं!",
+      'emptyLabourList':
+          "कोई लेबर नहीं जोड़ा गया है। पहला लेबर जोड़ने के लिए '+' दबाएं!",
       'present': "उपस्थित",
       'absent': "अनुपस्थित",
       'halfDay': "हाफ डे",
@@ -217,7 +221,8 @@ class Translations {
       'morningNotification': "आज की हाजिरी लेने का समय हो गया है!",
       'eveningNotification': "आज के लंबित भुगतानों की जांच करें।",
       'digitalHajriCardMode': "डिजिटल हाजिरी कार्ड मोड",
-      'paperCardHelper': "हाजिरी या भुगतान दर्ज करने के लिए ग्रिड में किसी भी दिन पर टैप करें।",
+      'paperCardHelper':
+          "हाजिरी या भुगतान दर्ज करने के लिए ग्रिड में किसी भी दिन पर टैप करें।",
       'totalWage': "कुल मजदूरी",
       'remaining': "शेष राशि",
       'chooseLanguage': "भाषा चुनें",
@@ -241,7 +246,8 @@ class Translations {
       'workerCode': "लेबर कोड",
       'photoUrl': "फोटो लिंक",
       'defaultProject': "डिफ़ॉल्ट प्रोजेक्ट",
-      'confirmDelete': "क्या आप वाकई इस लेबर को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+      'confirmDelete':
+          "क्या आप वाकई इस लेबर को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
       'recordsFound': "रिकॉर्ड मिले",
       'allWorkers': "सभी लेबर",
       'multipleSelect': "मल्टीपल सेलेक्ट",
@@ -271,7 +277,8 @@ class Translations {
       'save': "સાચવો",
       'cancel': "રદ કરો",
       'searchPlaceholder': "નામ, ફોન, ગામથી શોધો...",
-      'emptyLabourList': "કોઈ લેબર ઉમેરેલ નથી. પ્રથમ લેબર ઉમેરવા માટે '+' દબાવો!",
+      'emptyLabourList':
+          "કોઈ લેબર ઉમેરેલ નથી. પ્રથમ લેબર ઉમેરવા માટે '+' દબાવો!",
       'present': "હાજર",
       'absent': "ગેરહાજર",
       'halfDay': "હાફ ડે",
@@ -342,7 +349,8 @@ class Translations {
       'morningNotification': "આજની હાજરી પૂરવાનો સમય થઈ ગયો છે!",
       'eveningNotification': "આજની બાકી ચુકવણીઓ તપાસો.",
       'digitalHajriCardMode': "ડિજિટલ હાજરી કાર્ડ મોડ",
-      'paperCardHelper': "હાજરી અથવા ચુકવણી દાખલ કરવા માટે ગ્રીડમાં કોઈપણ દિવસ પર ટેપ કરો.",
+      'paperCardHelper':
+          "હાજરી અથવા ચુકવણી દાખલ કરવા માટે ગ્રીડમાં કોઈપણ દિવસ પર ટેપ કરો.",
       'totalWage': "કુલ મજૂરી",
       'remaining': "બાકી રકમ",
       'chooseLanguage': "ભાષા પસંદ કરો",
@@ -366,7 +374,8 @@ class Translations {
       'workerCode': "લેબર કોડ",
       'photoUrl': "ફોટો લિંક",
       'defaultProject': "ડિફોલ્ટ પ્રોજેક્ટ",
-      'confirmDelete': "શું તમે ખરેખર આ લેબરને કાઢી નાખવા માંગો છો? આ પ્રક્રિયા પાછી ખેંચી શકાશે નહીં.",
+      'confirmDelete':
+          "શું તમે ખરેખર આ લેબરને કાઢી નાખવા માંગો છો? આ પ્રક્રિયા પાછી ખેંચી શકાશે નહીં.",
       'recordsFound': "રેકોર્ડ મળ્યા",
       'allWorkers': "તમામ લેબર",
       'multipleSelect': "મલ્ટીપલ સિલેક્ટ",
@@ -374,6 +383,6 @@ class Translations {
       'markSelectedAbsent': "પસંદ કરેલાને ગેરહાજર કરો",
       'markSelectedHalf': "પસંદ કરેલાને હાફ ડે કરો",
       'selectedWorkers': "પસંદ કરેલ",
-    }
+    },
   };
 }

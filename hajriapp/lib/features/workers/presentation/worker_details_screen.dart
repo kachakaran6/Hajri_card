@@ -30,42 +30,51 @@ class WorkerDetailsScreen extends HookConsumerWidget {
     final workers = ref.watch(workersStreamProvider);
     final activeProject = ref.watch(activeProjectProvider);
     final workerList = workers.where((w) => w.id == workerId);
-    
+
     if (workerList.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
         body: const Center(child: Text('Labour not found')),
       );
     }
-    
+
     final worker = workerList.first;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // Fetch transactions
-    final transactions = ref.watch(transactionsStreamProvider({'workerId': workerId}));
+    final transactions = ref.watch(
+      transactionsStreamProvider({'workerId': workerId}),
+    );
 
     final now = DateTime.now();
     final selectedMonth = useState(now.month);
     final selectedYear = useState(now.year);
 
     // Watch worker attendance stream
-    final workerAttendance = ref.watch(workerAttendanceStreamProvider(workerId));
+    final workerAttendance = ref.watch(
+      workerAttendanceStreamProvider(workerId),
+    );
 
     final summaryState = useState<MonthlySummary?>(null);
 
     useEffect(() {
       Future<void> fetchSummary() async {
         try {
-          final response = await Supabase.instance.client.from('monthly_summary').select()
+          final response = await Supabase.instance.client
+              .from('monthly_summary')
+              .select()
               .eq('worker_id', workerId)
               .eq('month', selectedMonth.value)
               .eq('year', selectedYear.value)
               .maybeSingle();
           if (context.mounted) {
-            summaryState.value = response != null ? MonthlySummary.fromJson(response) : null;
+            summaryState.value = response != null
+                ? MonthlySummary.fromJson(response)
+                : null;
           }
         } catch (_) {}
       }
+
       fetchSummary();
       return null;
     }, [selectedMonth.value, selectedYear.value]);
@@ -96,7 +105,8 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                 );
                 await Printing.sharePdf(
                   bytes: pdfBytes,
-                  filename: '${worker.fullName}_Payslip_${selectedMonth.value}_${selectedYear.value}.pdf',
+                  filename:
+                      '${worker.fullName}_Payslip_${selectedMonth.value}_${selectedYear.value}.pdf',
                 );
               },
             ),
@@ -113,7 +123,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                   side: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                    color: isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
                   ),
                 ),
                 child: Padding(
@@ -145,9 +157,8 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                           children: [
                             Text(
                               worker.fullName,
-                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: Theme.of(context).textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
                             Text(
@@ -157,7 +168,8 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                             const SizedBox(height: 2),
                             Text(
                               'Wage Rate: ₹${worker.dailyWage.toStringAsFixed(0)}/day',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -178,7 +190,8 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                     child: _buildStatCard(
                       context: context,
                       label: 'Gross Wages',
-                      value: '₹${(summary?.grossAmount ?? 0.0).toStringAsFixed(0)}',
+                      value:
+                          '₹${(summary?.grossAmount ?? 0.0).toStringAsFixed(0)}',
                       color: AppColors.success,
                     ),
                   ),
@@ -210,7 +223,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                       context: context,
                       label: 'Balance Due',
                       value: '₹${(summary?.balance ?? 0.0).toStringAsFixed(0)}',
-                      color: (summary?.balance ?? 0.0) >= 0 ? AppColors.success : AppColors.error,
+                      color: (summary?.balance ?? 0.0) >= 0
+                          ? AppColors.success
+                          : AppColors.error,
                       isBold: true,
                     ),
                   ),
@@ -223,13 +238,18 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      icon: const Icon(Icons.currency_rupee, color: Colors.white),
+                      icon: const Icon(
+                        Icons.currency_rupee,
+                        color: Colors.white,
+                      ),
                       label: const Text('Pay Salary'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.success,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: () => openPaymentSheet('Salary'),
                     ),
@@ -243,7 +263,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                         backgroundColor: AppColors.warning,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: () => openPaymentSheet('Advance'),
                     ),
@@ -257,7 +279,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                   side: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                    color: isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
                   ),
                 ),
                 child: Padding(
@@ -271,7 +295,11 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                           Expanded(
                             child: Text(
                               'Hajri Card (Attendance)',
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                             ),
                           ),
                           // Month Selector
@@ -289,14 +317,22 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                                 },
                               ),
                               Text(
-                                DateFormat('MMM yyyy').format(DateTime(selectedYear.value, selectedMonth.value)),
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                DateFormat('MMM yyyy').format(
+                                  DateTime(
+                                    selectedYear.value,
+                                    selectedMonth.value,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.chevron_right),
                                 onPressed: () {
                                   final nowMonth = DateTime.now();
-                                  if (selectedYear.value == nowMonth.year && selectedMonth.value == nowMonth.month) {
+                                  if (selectedYear.value == nowMonth.year &&
+                                      selectedMonth.value == nowMonth.month) {
                                     // Don't go to future months
                                     return;
                                   }
@@ -317,34 +353,51 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                       // Weekday Headers
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: const ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day) {
-                          return SizedBox(
-                            width: 32,
-                            child: Text(
-                              day,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.grey),
-                            ),
-                          );
-                        }).toList(),
+                        children: const ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(
+                          (day) {
+                            return SizedBox(
+                              width: 32,
+                              child: Text(
+                                day,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            );
+                          },
+                        ).toList(),
                       ),
                       const SizedBox(height: 8),
 
                       // Days Grid
                       Builder(
                         builder: (context) {
-                          final firstDayOffset = DateTime(selectedYear.value, selectedMonth.value, 1).weekday - 1;
-                          final daysInMonth = DateTime(selectedYear.value, selectedMonth.value + 1, 0).day;
+                          final firstDayOffset =
+                              DateTime(
+                                selectedYear.value,
+                                selectedMonth.value,
+                                1,
+                              ).weekday -
+                              1;
+                          final daysInMonth = DateTime(
+                            selectedYear.value,
+                            selectedMonth.value + 1,
+                            0,
+                          ).day;
                           final totalCells = firstDayOffset + daysInMonth;
 
                           return GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 7,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 7,
+                                  mainAxisSpacing: 8,
+                                  crossAxisSpacing: 8,
+                                ),
                             itemCount: totalCells,
                             itemBuilder: (context, index) {
                               if (index < firstDayOffset) {
@@ -352,8 +405,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                               }
 
                               final day = index - firstDayOffset + 1;
-                              final dateStr = '${selectedYear.value}-${selectedMonth.value.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-                              
+                              final dateStr =
+                                  '${selectedYear.value}-${selectedMonth.value.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+
                               final dayAtt = workerAttendance.firstWhere(
                                 (a) => a.date == dateStr,
                                 orElse: () => Attendance(
@@ -366,15 +420,25 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                                 ),
                               );
 
-                              final hasLogged = workerAttendance.any((a) => a.date == dateStr);
+                              final hasLogged = workerAttendance.any(
+                                (a) => a.date == dateStr,
+                              );
                               final status = hasLogged ? dayAtt.status : 'None';
 
                               return InkWell(
                                 onTap: () async {
                                   // Open Wage Adjustment Dialog to edit this day's attendance
-                                  final wageData = await Supabase.instance.client.from('daily_wages').select().eq('attendance_id', dayAtt.id).maybeSingle();
-                                  final existingWage = wageData != null ? DailyWage.fromJson(wageData) : null;
-                                  
+                                  final wageData = await Supabase
+                                      .instance
+                                      .client
+                                      .from('daily_wages')
+                                      .select()
+                                      .eq('attendance_id', dayAtt.id)
+                                      .maybeSingle();
+                                  final existingWage = wageData != null
+                                      ? DailyWage.fromJson(wageData)
+                                      : null;
+
                                   if (!context.mounted) return;
                                   showDialog(
                                     context: context,
@@ -382,19 +446,30 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                                       worker: worker,
                                       attendance: dayAtt,
                                       existingWage: existingWage,
-                                      onSave: (newStatus, otHours, bonus, deduction, remarks) async {
-                                        final updated = dayAtt.copyWith(
-                                          status: newStatus,
-                                          projectId: activeProject?.id,
-                                          overtimeHours: otHours,
-                                          remarks: remarks,
-                                        );
-                                        await ref.read(attendanceRepositoryProvider).saveAttendance(
-                                          updated,
-                                          bonus: bonus,
-                                          deduction: deduction,
-                                        );
-                                      },
+                                      onSave:
+                                          (
+                                            newStatus,
+                                            otHours,
+                                            bonus,
+                                            deduction,
+                                            remarks,
+                                          ) async {
+                                            final updated = dayAtt.copyWith(
+                                              status: newStatus,
+                                              projectId: activeProject?.id,
+                                              overtimeHours: otHours,
+                                              remarks: remarks,
+                                            );
+                                            await ref
+                                                .read(
+                                                  attendanceRepositoryProvider,
+                                                )
+                                                .saveAttendance(
+                                                  updated,
+                                                  bonus: bonus,
+                                                  deduction: deduction,
+                                                );
+                                          },
                                     ),
                                   );
                                 },
@@ -402,18 +477,23 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                                   decoration: BoxDecoration(
                                     color: status == 'None'
                                         ? Colors.transparent
-                                        : AppColors.getStatusBg(status).withAlpha(40),
+                                        : AppColors.getStatusBg(
+                                            status,
+                                          ).withAlpha(40),
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       color: status == 'None'
-                                          ? (isDark ? Colors.white12 : Colors.black12)
+                                          ? (isDark
+                                                ? Colors.white12
+                                                : Colors.black12)
                                           : AppColors.getStatusColor(status),
                                       width: status == 'None' ? 1 : 2,
                                     ),
                                   ),
                                   child: Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           '$day',
@@ -421,17 +501,25 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,
                                             color: status == 'None'
-                                                ? (isDark ? Colors.white70 : Colors.black87)
-                                                : AppColors.getStatusColor(status),
+                                                ? (isDark
+                                                      ? Colors.white70
+                                                      : Colors.black87)
+                                                : AppColors.getStatusColor(
+                                                    status,
+                                                  ),
                                           ),
                                         ),
-                                        if (status != 'None' && status != 'Absent' && status != 'Leave')
+                                        if (status != 'None' &&
+                                            status != 'Absent' &&
+                                            status != 'Leave')
                                           Text(
                                             status == 'Half Day' ? '½' : 'P',
                                             style: TextStyle(
                                               fontSize: 8,
                                               fontWeight: FontWeight.bold,
-                                              color: AppColors.getStatusColor(status),
+                                              color: AppColors.getStatusColor(
+                                                status,
+                                              ),
                                             ),
                                           ),
                                       ],
@@ -452,29 +540,39 @@ class WorkerDetailsScreen extends HookConsumerWidget {
               // 4. Khata Ledger View
               Text(
                 'Khata (Account Book)',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
 
               Builder(
                 builder: (context) {
                   // Combine attendance and transactions for the selected month
-                  final String monthStr = '${selectedYear.value}-${selectedMonth.value.toString().padLeft(2, '0')}';
-                  
-                  final monthAttendances = workerAttendance.where((a) => a.date.startsWith(monthStr)).toList();
-                  final monthTransactions = transactions.where((t) => t.transactionDate.startsWith(monthStr)).toList();
+                  final String monthStr =
+                      '${selectedYear.value}-${selectedMonth.value.toString().padLeft(2, '0')}';
+
+                  final monthAttendances = workerAttendance
+                      .where((a) => a.date.startsWith(monthStr))
+                      .toList();
+                  final monthTransactions = transactions
+                      .where((t) => t.transactionDate.startsWith(monthStr))
+                      .toList();
 
                   // Create unified ledger entries
                   final List<Map<String, dynamic>> ledger = [];
-                  
+
                   for (final a in monthAttendances) {
-                    if (a.status == 'None' || a.status == 'Absent' || a.status == 'Leave') continue;
+                    if (a.status == 'None' ||
+                        a.status == 'Absent' ||
+                        a.status == 'Leave')
+                      continue;
                     double earned = 0;
                     if (a.status == 'Present') earned = worker.dailyWage;
                     if (a.status == 'Half Day') earned = worker.dailyWage / 2;
                     // Add overtime if applicable
                     earned += (a.overtimeHours * worker.overtimeRate);
-                    
+
                     ledger.add({
                       'date': a.date,
                       'title': 'Wages (${a.status})',
@@ -488,16 +586,26 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                   for (final t in monthTransactions) {
                     ledger.add({
                       'date': t.transactionDate,
-                      'title': t.transactionType == 'Salary' ? 'Salary Paid' : 'Advance Given',
+                      'title': t.transactionType == 'Salary'
+                          ? 'Salary Paid'
+                          : 'Advance Given',
                       'amount': t.amount,
-                      'type': t.transactionType == 'Salary' ? 'paid' : 'advance',
-                      'icon': t.transactionType == 'Salary' ? Icons.currency_rupee : Icons.arrow_upward,
-                      'color': t.transactionType == 'Salary' ? AppColors.success : AppColors.warning,
+                      'type': t.transactionType == 'Salary'
+                          ? 'paid'
+                          : 'advance',
+                      'icon': t.transactionType == 'Salary'
+                          ? Icons.currency_rupee
+                          : Icons.arrow_upward,
+                      'color': t.transactionType == 'Salary'
+                          ? AppColors.success
+                          : AppColors.warning,
                       'id': t.id,
                     });
                   }
 
-                  ledger.sort((a, b) => b['date'].compareTo(a['date'])); // Newest first
+                  ledger.sort(
+                    (a, b) => b['date'].compareTo(a['date']),
+                  ); // Newest first
 
                   if (ledger.isEmpty) {
                     return Card(
@@ -506,7 +614,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                         child: Center(
                           child: Text(
                             'No khata entries for this month',
-                            style: TextStyle(color: isDark ? Colors.white38 : Colors.black38),
+                            style: TextStyle(
+                              color: isDark ? Colors.white38 : Colors.black38,
+                            ),
                           ),
                         ),
                       ),
@@ -521,14 +631,18 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                       final item = ledger[index];
                       final isEarned = item['type'] == 'earned';
                       final isAdvance = item['type'] == 'advance';
-                      final amountColor = isEarned ? AppColors.primary : (isAdvance ? AppColors.warning : AppColors.success);
+                      final amountColor = isEarned
+                          ? AppColors.primary
+                          : (isAdvance ? AppColors.warning : AppColors.success);
                       final sign = isEarned ? '+' : '-';
 
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                           side: BorderSide(
-                            color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.lightBorder,
                           ),
                         ),
                         child: ListTile(
@@ -550,7 +664,9 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            DateFormat('dd MMM yyyy').format(DateTime.parse(item['date'])),
+                            DateFormat(
+                              'dd MMM yyyy',
+                            ).format(DateTime.parse(item['date'])),
                             style: const TextStyle(fontSize: 12),
                           ),
                           trailing: Row(
@@ -567,31 +683,45 @@ class WorkerDetailsScreen extends HookConsumerWidget {
                               if (!isEarned) ...[
                                 const SizedBox(width: 8),
                                 IconButton(
-                                  icon: const Icon(Icons.delete_outline, size: 20, color: AppColors.error),
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    size: 20,
+                                    color: AppColors.error,
+                                  ),
                                   onPressed: () async {
                                     final confirm = await showDialog<bool>(
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         title: const Text('Delete Transaction'),
-                                        content: const Text('Are you sure you want to delete this payment?'),
+                                        content: const Text(
+                                          'Are you sure you want to delete this payment?',
+                                        ),
                                         actions: [
                                           TextButton(
-                                            child: Text(AppLocalizations.of(context)!.cancel),
-                                            onPressed: () => Navigator.pop(context, false),
+                                            child: Text(
+                                              AppLocalizations.of(
+                                                context,
+                                              )!.cancel,
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context, false),
                                           ),
                                           TextButton(
                                             child: const Text('Delete'),
-                                            onPressed: () => Navigator.pop(context, true),
+                                            onPressed: () =>
+                                                Navigator.pop(context, true),
                                           ),
                                         ],
                                       ),
                                     );
                                     if (confirm == true) {
-                                      await ref.read(transactionsRepositoryProvider).deleteTransaction(item['id']);
+                                      await ref
+                                          .read(transactionsRepositoryProvider)
+                                          .deleteTransaction(item['id']);
                                     }
                                   },
-                                )
-                              ]
+                                ),
+                              ],
                             ],
                           ),
                         ),
@@ -627,7 +757,10 @@ class WorkerDetailsScreen extends HookConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
             const SizedBox(height: 4),
             Text(
               value,
@@ -643,4 +776,3 @@ class WorkerDetailsScreen extends HookConsumerWidget {
     );
   }
 }
-

@@ -19,5 +19,6 @@ class DailyWage with _$DailyWage {
     @JsonKey(name: 'updated_at') String? updatedAt,
   }) = _DailyWage;
 
-  factory DailyWage.fromJson(Map<String, dynamic> json) => _$DailyWageFromJson(json);
+  factory DailyWage.fromJson(Map<String, dynamic> json) =>
+      _$DailyWageFromJson(json);
 }

@@ -42,7 +42,13 @@ class AuthController extends StateNotifier<AsyncValue<ContractorProfile?>> {
     }
   }
 
-  Future<void> signUp(String email, String password, String fullName, String companyName, String phone) async {
+  Future<void> signUp(
+    String email,
+    String password,
+    String fullName,
+    String companyName,
+    String phone,
+  ) async {
     state = const AsyncValue.loading();
     try {
       await _repo.signUp(email, password, fullName, companyName, phone);
@@ -76,7 +82,10 @@ class AuthController extends StateNotifier<AsyncValue<ContractorProfile?>> {
   }
 }
 
-final authControllerProvider = StateNotifierProvider<AuthController, AsyncValue<ContractorProfile?>>((ref) {
-  final repo = ref.watch(authRepositoryProvider);
-  return AuthController(repo);
-});
+final authControllerProvider =
+    StateNotifierProvider<AuthController, AsyncValue<ContractorProfile?>>((
+      ref,
+    ) {
+      final repo = ref.watch(authRepositoryProvider);
+      return AuthController(repo);
+    });

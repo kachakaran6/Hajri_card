@@ -11,7 +11,8 @@ class Attendance with _$Attendance {
     @JsonKey(name: 'worker_id') required String workerId,
     @JsonKey(name: 'project_id') String? projectId,
     required String date,
-    required String status, // 'Present', 'Absent', 'Half Day', 'Leave', 'Holiday', 'Overtime'
+    required String
+    status, // 'Present', 'Absent', 'Half Day', 'Leave', 'Holiday', 'Overtime'
     @JsonKey(name: 'working_hours') @Default(0.0) double workingHours,
     @JsonKey(name: 'overtime_hours') @Default(0.0) double overtimeHours,
     String? remarks,
@@ -19,5 +20,6 @@ class Attendance with _$Attendance {
     @JsonKey(name: 'updated_at') String? updatedAt,
   }) = _Attendance;
 
-  factory Attendance.fromJson(Map<String, dynamic> json) => _$AttendanceFromJson(json);
+  factory Attendance.fromJson(Map<String, dynamic> json) =>
+      _$AttendanceFromJson(json);
 }

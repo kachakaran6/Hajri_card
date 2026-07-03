@@ -12,7 +12,8 @@ part of 'transaction.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return _Transaction.fromJson(json);
@@ -28,12 +29,10 @@ mixin _$Transaction {
   @JsonKey(name: 'project_id')
   String? get projectId => throw _privateConstructorUsedError;
   @JsonKey(name: 'transaction_type')
-  String get transactionType =>
-      throw _privateConstructorUsedError; // 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
+  String get transactionType => throw _privateConstructorUsedError; // 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
   double get amount => throw _privateConstructorUsedError;
   @JsonKey(name: 'payment_method')
-  String get paymentMethod =>
-      throw _privateConstructorUsedError; // 'Cash', 'UPI', 'Bank', 'Cheque'
+  String get paymentMethod => throw _privateConstructorUsedError; // 'Cash', 'UPI', 'Bank', 'Cheque'
   @JsonKey(name: 'reference_number')
   String? get referenceNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'transaction_date')
@@ -53,22 +52,24 @@ mixin _$Transaction {
 /// @nodoc
 abstract class $TransactionCopyWith<$Res> {
   factory $TransactionCopyWith(
-          Transaction value, $Res Function(Transaction) then) =
-      _$TransactionCopyWithImpl<$Res, Transaction>;
+    Transaction value,
+    $Res Function(Transaction) then,
+  ) = _$TransactionCopyWithImpl<$Res, Transaction>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'project_id') String? projectId,
-      @JsonKey(name: 'transaction_type') String transactionType,
-      double amount,
-      @JsonKey(name: 'payment_method') String paymentMethod,
-      @JsonKey(name: 'reference_number') String? referenceNumber,
-      @JsonKey(name: 'transaction_date') String transactionDate,
-      String? remarks,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'project_id') String? projectId,
+    @JsonKey(name: 'transaction_type') String transactionType,
+    double amount,
+    @JsonKey(name: 'payment_method') String paymentMethod,
+    @JsonKey(name: 'reference_number') String? referenceNumber,
+    @JsonKey(name: 'transaction_date') String transactionDate,
+    String? remarks,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -97,56 +98,59 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionType: null == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      paymentMethod: null == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceNumber: freezed == referenceNumber
-          ? _value.referenceNumber
-          : referenceNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionDate: null == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      remarks: freezed == remarks
-          ? _value.remarks
-          : remarks // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            contractorId: null == contractorId
+                ? _value.contractorId
+                : contractorId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            workerId: null == workerId
+                ? _value.workerId
+                : workerId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            projectId: freezed == projectId
+                ? _value.projectId
+                : projectId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            transactionType: null == transactionType
+                ? _value.transactionType
+                : transactionType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            paymentMethod: null == paymentMethod
+                ? _value.paymentMethod
+                : paymentMethod // ignore: cast_nullable_to_non_nullable
+                      as String,
+            referenceNumber: freezed == referenceNumber
+                ? _value.referenceNumber
+                : referenceNumber // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            transactionDate: null == transactionDate
+                ? _value.transactionDate
+                : transactionDate // ignore: cast_nullable_to_non_nullable
+                      as String,
+            remarks: freezed == remarks
+                ? _value.remarks
+                : remarks // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -154,23 +158,25 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
 abstract class _$$TransactionImplCopyWith<$Res>
     implements $TransactionCopyWith<$Res> {
   factory _$$TransactionImplCopyWith(
-          _$TransactionImpl value, $Res Function(_$TransactionImpl) then) =
-      __$$TransactionImplCopyWithImpl<$Res>;
+    _$TransactionImpl value,
+    $Res Function(_$TransactionImpl) then,
+  ) = __$$TransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'contractor_id') String contractorId,
-      @JsonKey(name: 'worker_id') String workerId,
-      @JsonKey(name: 'project_id') String? projectId,
-      @JsonKey(name: 'transaction_type') String transactionType,
-      double amount,
-      @JsonKey(name: 'payment_method') String paymentMethod,
-      @JsonKey(name: 'reference_number') String? referenceNumber,
-      @JsonKey(name: 'transaction_date') String transactionDate,
-      String? remarks,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt});
+  $Res call({
+    String id,
+    @JsonKey(name: 'contractor_id') String contractorId,
+    @JsonKey(name: 'worker_id') String workerId,
+    @JsonKey(name: 'project_id') String? projectId,
+    @JsonKey(name: 'transaction_type') String transactionType,
+    double amount,
+    @JsonKey(name: 'payment_method') String paymentMethod,
+    @JsonKey(name: 'reference_number') String? referenceNumber,
+    @JsonKey(name: 'transaction_date') String transactionDate,
+    String? remarks,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+  });
 }
 
 /// @nodoc
@@ -178,8 +184,9 @@ class __$$TransactionImplCopyWithImpl<$Res>
     extends _$TransactionCopyWithImpl<$Res, _$TransactionImpl>
     implements _$$TransactionImplCopyWith<$Res> {
   __$$TransactionImplCopyWithImpl(
-      _$TransactionImpl _value, $Res Function(_$TransactionImpl) _then)
-      : super(_value, _then);
+    _$TransactionImpl _value,
+    $Res Function(_$TransactionImpl) _then,
+  ) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -197,75 +204,78 @@ class __$$TransactionImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(_$TransactionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      contractorId: null == contractorId
-          ? _value.contractorId
-          : contractorId // ignore: cast_nullable_to_non_nullable
-              as String,
-      workerId: null == workerId
-          ? _value.workerId
-          : workerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionType: null == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      paymentMethod: null == paymentMethod
-          ? _value.paymentMethod
-          : paymentMethod // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceNumber: freezed == referenceNumber
-          ? _value.referenceNumber
-          : referenceNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transactionDate: null == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      remarks: freezed == remarks
-          ? _value.remarks
-          : remarks // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$TransactionImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        contractorId: null == contractorId
+            ? _value.contractorId
+            : contractorId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        workerId: null == workerId
+            ? _value.workerId
+            : workerId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        projectId: freezed == projectId
+            ? _value.projectId
+            : projectId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        transactionType: null == transactionType
+            ? _value.transactionType
+            : transactionType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        paymentMethod: null == paymentMethod
+            ? _value.paymentMethod
+            : paymentMethod // ignore: cast_nullable_to_non_nullable
+                  as String,
+        referenceNumber: freezed == referenceNumber
+            ? _value.referenceNumber
+            : referenceNumber // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        transactionDate: null == transactionDate
+            ? _value.transactionDate
+            : transactionDate // ignore: cast_nullable_to_non_nullable
+                  as String,
+        remarks: freezed == remarks
+            ? _value.remarks
+            : remarks // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$TransactionImpl implements _Transaction {
-  const _$TransactionImpl(
-      {required this.id,
-      @JsonKey(name: 'contractor_id') required this.contractorId,
-      @JsonKey(name: 'worker_id') required this.workerId,
-      @JsonKey(name: 'project_id') this.projectId,
-      @JsonKey(name: 'transaction_type') required this.transactionType,
-      this.amount = 0.0,
-      @JsonKey(name: 'payment_method') required this.paymentMethod,
-      @JsonKey(name: 'reference_number') this.referenceNumber,
-      @JsonKey(name: 'transaction_date') required this.transactionDate,
-      this.remarks,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+  const _$TransactionImpl({
+    required this.id,
+    @JsonKey(name: 'contractor_id') required this.contractorId,
+    @JsonKey(name: 'worker_id') required this.workerId,
+    @JsonKey(name: 'project_id') this.projectId,
+    @JsonKey(name: 'transaction_type') required this.transactionType,
+    this.amount = 0.0,
+    @JsonKey(name: 'payment_method') required this.paymentMethod,
+    @JsonKey(name: 'reference_number') this.referenceNumber,
+    @JsonKey(name: 'transaction_date') required this.transactionDate,
+    this.remarks,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+  });
 
   factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionImplFromJson(json);
@@ -284,14 +294,14 @@ class _$TransactionImpl implements _Transaction {
   @override
   @JsonKey(name: 'transaction_type')
   final String transactionType;
-// 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
+  // 'Salary', 'Advance', 'Bonus', 'Deduction', 'Adjustment'
   @override
   @JsonKey()
   final double amount;
   @override
   @JsonKey(name: 'payment_method')
   final String paymentMethod;
-// 'Cash', 'UPI', 'Bank', 'Cheque'
+  // 'Cash', 'UPI', 'Bank', 'Cheque'
   @override
   @JsonKey(name: 'reference_number')
   final String? referenceNumber;
@@ -343,19 +353,20 @@ class _$TransactionImpl implements _Transaction {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      contractorId,
-      workerId,
-      projectId,
-      transactionType,
-      amount,
-      paymentMethod,
-      referenceNumber,
-      transactionDate,
-      remarks,
-      createdAt,
-      updatedAt);
+    runtimeType,
+    id,
+    contractorId,
+    workerId,
+    projectId,
+    transactionType,
+    amount,
+    paymentMethod,
+    referenceNumber,
+    transactionDate,
+    remarks,
+    createdAt,
+    updatedAt,
+  );
 
   @JsonKey(ignore: true)
   @override
@@ -365,27 +376,25 @@ class _$TransactionImpl implements _Transaction {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TransactionImplToJson(
-      this,
-    );
+    return _$$TransactionImplToJson(this);
   }
 }
 
 abstract class _Transaction implements Transaction {
-  const factory _Transaction(
-      {required final String id,
-      @JsonKey(name: 'contractor_id') required final String contractorId,
-      @JsonKey(name: 'worker_id') required final String workerId,
-      @JsonKey(name: 'project_id') final String? projectId,
-      @JsonKey(name: 'transaction_type') required final String transactionType,
-      final double amount,
-      @JsonKey(name: 'payment_method') required final String paymentMethod,
-      @JsonKey(name: 'reference_number') final String? referenceNumber,
-      @JsonKey(name: 'transaction_date') required final String transactionDate,
-      final String? remarks,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at')
-      final String? updatedAt}) = _$TransactionImpl;
+  const factory _Transaction({
+    required final String id,
+    @JsonKey(name: 'contractor_id') required final String contractorId,
+    @JsonKey(name: 'worker_id') required final String workerId,
+    @JsonKey(name: 'project_id') final String? projectId,
+    @JsonKey(name: 'transaction_type') required final String transactionType,
+    final double amount,
+    @JsonKey(name: 'payment_method') required final String paymentMethod,
+    @JsonKey(name: 'reference_number') final String? referenceNumber,
+    @JsonKey(name: 'transaction_date') required final String transactionDate,
+    final String? remarks,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+  }) = _$TransactionImpl;
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
       _$TransactionImpl.fromJson;
