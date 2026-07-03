@@ -59,7 +59,7 @@ export const useAllContractors = () =>
     queryKey: ['admin', 'contractors'],
     queryFn: async () => {
       const { data, error } = await supabaseAdmin
-        .from('contractor_profiles')
+        .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
