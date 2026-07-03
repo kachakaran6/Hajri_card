@@ -203,6 +203,8 @@ class TransactionsNotifier extends StateNotifier<List<Transaction>> {
         }
         state = all;
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 

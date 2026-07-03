@@ -5,17 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/app_colors.dart';
-
-import '../../../core/widgets/numpad.dart';
 import '../../attendance/presentation/attendance_screen.dart';
 import '../../attendance/repositories/attendance_repository.dart';
 import '../../attendance/models/attendance.dart';
 import '../../attendance/models/daily_wage.dart';
-import '../../payments/models/transaction.dart';
+
+import '../../payments/presentation/payment_sheet.dart';
 import '../../payments/repositories/transactions_repository.dart';
 import '../../projects/repositories/projects_repository.dart';
 import '../../reports/models/monthly_summary.dart';
-import '../models/worker.dart';
+
 import '../repositories/workers_repository.dart';
 import 'package:hajriapp/l10n/app_localizations.dart';
 import 'package:printing/printing.dart';
@@ -77,7 +76,7 @@ class WorkerDetailsScreen extends HookConsumerWidget {
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
-        builder: (context) => AddTransactionSheet(worker: worker, type: type),
+        builder: (context) => PaymentSheet(worker: worker, initialType: type),
       );
     }
 
@@ -645,123 +644,3 @@ class WorkerDetailsScreen extends HookConsumerWidget {
   }
 }
 
-class AddTransactionSheet extends HookConsumerWidget {
-  final Worker worker;
-  final String type; // 'Salary' or 'Advance'
-
-  const AddTransactionSheet({super.key, required this.worker, required this.type});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final amountText = useState('');
-    final activeProject = ref.watch(activeProjectProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    void handleSave() async {
-      final amount = double.tryParse(amountText.value);
-      if (amount == null || amount <= 0) return;
-
-      final transaction = Transaction(
-        id: const Uuid().v4(),
-        contractorId: '',
-        workerId: worker.id,
-        projectId: activeProject?.id,
-        transactionType: type,
-        amount: amount,
-        paymentMethod: 'Cash',
-        transactionDate: DateTime.now().toIso8601String().substring(0, 10),
-      );
-
-      final navigator = Navigator.of(context);
-      await ref.read(transactionsRepositoryProvider).saveTransaction(transaction);
-      navigator.pop();
-    }
-
-    void onKeyTap(String key) {
-      if (amountText.value.length < 7) {
-        amountText.value += key;
-      }
-    }
-
-    void onBackspace() {
-      if (amountText.value.isNotEmpty) {
-        amountText.value = amountText.value.substring(0, amountText.value.length - 1);
-      }
-    }
-
-    void onClear() {
-      amountText.value = '';
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      padding: EdgeInsets.only(
-        top: 24,
-        left: 24,
-        right: 24,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(
-            child: Container(
-              width: 36,
-              height: 4,
-              decoration: BoxDecoration(
-                color: isDark ? Colors.white24 : Colors.black12,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            type == 'Salary' ? 'Record Salary Payment' : 'Record Cash Advance',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Worker: ${worker.fullName}', 
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-
-          // Display Amount
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-            decoration: BoxDecoration(
-              color: isDark ? Colors.black12 : Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              '₹ ${amountText.value.isEmpty ? "0" : amountText.value}',
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: type == 'Salary' ? AppColors.success : AppColors.warning,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Custom Numpad
-          Numpad(
-            onKeyTap: onKeyTap,
-            onBackspace: onBackspace,
-            onClear: onClear,
-            onSubmit: handleSave,
-            submitLabel: 'SAVE ${type.toUpperCase()}',
-            submitColor: type == 'Salary' ? AppColors.success : AppColors.warning,
-          ),
-        ],
-      ),
-    );
-  }
-}

@@ -62,6 +62,8 @@ class WorkersNotifier extends StateNotifier<List<Worker>> {
       if (mounted) {
         state = data.map((e) => Worker.fromJson(e)).toList();
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 
@@ -101,6 +103,8 @@ class WorkerBalanceNotifier extends StateNotifier<double> {
         }
         state = totalBalance;
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 

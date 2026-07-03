@@ -102,6 +102,7 @@ class ProjectsScreen extends HookConsumerWidget {
                               ref.read(activeProjectProvider.notifier).state = null;
                             }
                             await ref.read(projectsRepositoryProvider).deleteProject(project.id);
+                            ref.invalidate(projectsStreamProvider);
                           }
                         },
                         backgroundColor: AppColors.error,
@@ -209,6 +210,7 @@ class AddProjectSheet extends HookConsumerWidget {
 
       final navigator = Navigator.of(context);
       await ref.read(projectsRepositoryProvider).saveProject(updatedProject);
+      ref.invalidate(projectsStreamProvider);
       navigator.pop();
     }
 

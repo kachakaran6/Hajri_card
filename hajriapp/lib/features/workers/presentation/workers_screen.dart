@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +10,9 @@ import '../../../core/constants/app_colors.dart';
 
 import '../../projects/repositories/projects_repository.dart';
 
+import '../../attendance/models/attendance.dart';
 import '../../attendance/repositories/attendance_repository.dart';
+import '../../payments/presentation/payment_sheet.dart';
 import '../models/worker.dart';
 import '../repositories/workers_repository.dart';
 import 'package:intl/intl.dart';
@@ -65,15 +68,22 @@ class WorkersScreen extends HookConsumerWidget {
             ? '${selectedIds.length} ${AppLocalizations.of(context)!.selectedWorkers}' 
             : AppLocalizations.of(context)!.allWorkers),
         actions: [
-          if (isMultiSelect)
+          if (isMultiSelect) ...[
+            IconButton(
+              icon: const Icon(Icons.select_all),
+              onPressed: () {
+                final allIds = filteredWorkers.map((w) => w.id).toList();
+                ref.read(selectedWorkerIdsProvider.notifier).state = allIds;
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
                 ref.read(isMultiSelectModeProvider.notifier).state = false;
                 ref.read(selectedWorkerIdsProvider.notifier).state = [];
               },
-            )
-          else ...[
+            ),
+          ] else ...[
             IconButton(
               icon: const Icon(Icons.qr_code_scanner),
               onPressed: () {
@@ -135,7 +145,38 @@ class WorkersScreen extends HookConsumerWidget {
                           style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          // Phase 5: Bulk Present
+                          void handleBulkAction(String status) async {
+                            if (selectedIds.isEmpty) return;
+                            final activeProject = ref.read(activeProjectProvider);
+                            final futures = <Future<void>>[];
+                            
+                            for (final workerId in selectedIds) {
+                              final existingAtt = todaysAttendance.where((a) => a.workerId == workerId).firstOrNull;
+                              final attendance = existingAtt?.copyWith(
+                                status: status,
+                                projectId: activeProject?.id,
+                              ) ?? Attendance(
+                                id: const Uuid().v4(),
+                                contractorId: '',
+                                workerId: workerId,
+                                projectId: activeProject?.id,
+                                date: DateTime.now().toIso8601String().substring(0, 10),
+                                status: status,
+                              );
+                              futures.add(ref.read(attendanceRepositoryProvider).saveAttendance(attendance));
+                            }
+                            
+                            await Future.wait(futures);
+                            
+                            for (final workerId in selectedIds) {
+                              ref.invalidate(workerBalanceProvider(workerId));
+                            }
+                            ref.invalidate(attendanceStreamProvider(activeProject?.id));
+                            
+                            ref.read(isMultiSelectModeProvider.notifier).state = false;
+                            ref.read(selectedWorkerIdsProvider.notifier).state = [];
+                          }
+                          handleBulkAction('Present');
                         },
                       ),
                       TextButton.icon(
@@ -145,7 +186,38 @@ class WorkersScreen extends HookConsumerWidget {
                           style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          // Phase 5: Bulk Absent
+                          void handleBulkAction(String status) async {
+                            if (selectedIds.isEmpty) return;
+                            final activeProject = ref.read(activeProjectProvider);
+                            final futures = <Future<void>>[];
+                            
+                            for (final workerId in selectedIds) {
+                              final existingAtt = todaysAttendance.where((a) => a.workerId == workerId).firstOrNull;
+                              final attendance = existingAtt?.copyWith(
+                                status: status,
+                                projectId: activeProject?.id,
+                              ) ?? Attendance(
+                                id: const Uuid().v4(),
+                                contractorId: '',
+                                workerId: workerId,
+                                projectId: activeProject?.id,
+                                date: DateTime.now().toIso8601String().substring(0, 10),
+                                status: status,
+                              );
+                              futures.add(ref.read(attendanceRepositoryProvider).saveAttendance(attendance));
+                            }
+                            
+                            await Future.wait(futures);
+                            
+                            for (final workerId in selectedIds) {
+                              ref.invalidate(workerBalanceProvider(workerId));
+                            }
+                            ref.invalidate(attendanceStreamProvider(activeProject?.id));
+                            
+                            ref.read(isMultiSelectModeProvider.notifier).state = false;
+                            ref.read(selectedWorkerIdsProvider.notifier).state = [];
+                          }
+                          handleBulkAction('Absent');
                         },
                       ),
                     ],
@@ -187,21 +259,26 @@ class WorkersScreen extends HookConsumerWidget {
 
                       // Check if already marked for today
                       final existingAtt = todaysAttendance.where((a) => a.workerId == worker.id).firstOrNull;
-                      final isMarked = existingAtt != null;
-                      final isPresent = existingAtt?.status == 'Present' || existingAtt?.status == 'Half Day' || existingAtt?.status == 'Overtime';
-                      
+                      bool isMarked = false;
+                      bool isPresent = false;
                       String timeStr = '';
-                      if (existingAtt?.createdAt != null) {
-                        try {
-                          final dt = DateTime.parse(existingAtt!.createdAt!);
-                          timeStr = DateFormat('hh:mm a').format(dt);
-                        } catch (e) {
-                          timeStr = '';
+
+                      if (existingAtt != null) {
+                        isMarked = true;
+                        isPresent = existingAtt.status == 'Present';
+                        if (existingAtt.createdAt != null) {
+                          try {
+                            final dt = DateTime.parse(existingAtt.createdAt!).toLocal();
+                            timeStr = DateFormat('hh:mm a').format(dt);
+                          } catch (e) {
+                            timeStr = '';
+                          }
                         }
                       }
 
                       return _WorkerCard(
                         worker: worker,
+                        existingAtt: existingAtt,
                         isSelected: isSelected,
                         isMarked: isMarked,
                         isPresent: isPresent,
@@ -266,6 +343,7 @@ class AddWorkerSheet extends HookConsumerWidget {
         );
 
         await ref.read(workersRepositoryProvider).saveWorker(newWorker);
+        ref.invalidate(workersStreamProvider);
         if (context.mounted) Navigator.pop(context);
       } finally {
         isSubmitting.value = false;
@@ -332,8 +410,9 @@ class AddWorkerSheet extends HookConsumerWidget {
   }
 }
 
-class _WorkerCard extends ConsumerWidget {
+class _WorkerCard extends HookConsumerWidget {
   final Worker worker;
+  final Attendance? existingAtt;
   final bool isSelected;
   final bool isMarked;
   final bool isPresent;
@@ -343,6 +422,7 @@ class _WorkerCard extends ConsumerWidget {
 
   const _WorkerCard({
     required this.worker,
+    this.existingAtt,
     required this.isSelected,
     required this.isMarked,
     required this.isPresent,
@@ -355,106 +435,244 @@ class _WorkerCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final balance = ref.watch(workerBalanceProvider(worker.id));
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isFlashing = useState(false);
+
+    void handleMarkPresent() {
+      if (isMarked && isPresent) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Already marked present today')),
+        );
+        return;
+      }
+
+      HapticFeedback.mediumImpact();
+      isFlashing.value = true;
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (context.mounted) isFlashing.value = false;
+      });
+
+      final activeProject = ref.read(activeProjectProvider);
+      
+      final attendance = existingAtt?.copyWith(
+        status: 'Present',
+        projectId: activeProject?.id,
+      ) ?? Attendance(
+        id: const Uuid().v4(),
+        contractorId: '',
+        workerId: worker.id,
+        projectId: activeProject?.id,
+        date: DateTime.now().toIso8601String().substring(0, 10),
+        status: 'Present',
+      );
+      
+      ref.read(attendanceRepositoryProvider).saveAttendance(attendance).then((_) {
+        // Manually invalidate providers to refresh data since realtime may be disabled
+        ref.invalidate(attendanceStreamProvider(activeProject?.id));
+        ref.invalidate(workerBalanceProvider(worker.id));
+      });
+    }
 
     return Slidable(
       key: ValueKey(worker.id),
+      startActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () {},
+          closeOnCancel: true,
+          dismissThreshold: 0.05,
+          confirmDismiss: () async {
+            handleMarkPresent();
+            return false;
+          },
+        ),
+        children: [
+          SlidableAction(
+            onPressed: (context) => handleMarkPresent(),
+            backgroundColor: AppColors.success,
+            foregroundColor: Colors.white,
+            icon: Icons.check,
+            label: 'Present',
+          ),
+        ],
+      ),
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
             onPressed: (context) {
-              // Delete worker
-              ref.read(workersRepositoryProvider).deleteWorker(worker.id);
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => PaymentSheet(worker: worker),
+              );
             },
-            backgroundColor: AppColors.error,
+            backgroundColor: AppColors.info,
             foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: AppLocalizations.of(context)!.delete,
+            icon: Icons.currency_rupee,
+            label: 'પે (Pay)',
+          ),
+          SlidableAction(
+            onPressed: (context) {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => AddWorkerSheet(worker: worker),
+              );
+            },
+            backgroundColor: AppColors.warning,
+            foregroundColor: Colors.white,
+            icon: Icons.edit,
+            label: 'એડિટ (Edit)',
           ),
         ],
       ),
       child: InkWell(
         onLongPress: onLongPress,
         onTap: onTap,
-        child: Card(
-          shape: RoundedRectangleBorder(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          decoration: BoxDecoration(
+            color: isFlashing.value ? AppColors.success.withAlpha(80) : Colors.transparent,
             borderRadius: BorderRadius.circular(16),
-            side: BorderSide(
-              color: isSelected
-                  ? AppColors.primary
-                  : isDark
-                      ? AppColors.darkBorder
-                      : AppColors.lightBorder,
-              width: isSelected ? 2 : 1,
-            ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-            child: Row(
-              children: [
-                // Worker avatar
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.primary
-                        : AppColors.primary.withAlpha(25),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      worker.fullName.substring(0, 1).toUpperCase(),
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+          child: Card(
+            margin: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(
+                color: isSelected
+                    ? AppColors.primary
+                    : isDark
+                        ? AppColors.darkBorder
+                        : AppColors.lightBorder,
+                width: isSelected ? 2 : 1,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+              child: Row(
+                children: [
+                  // Worker avatar
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.primary.withAlpha(25),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        worker.fullName.substring(0, 1).toUpperCase(),
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                
-                // Worker details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(width: 16),
+                  
+                  // Worker details
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                worker.fullName,
+                                style: Theme.of(context).textTheme.titleMedium,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (isMarked) ...[
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: isPresent ? AppColors.success.withAlpha(30) : AppColors.error.withAlpha(30),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: isPresent ? AppColors.success : AppColors.error,
+                                    width: 0.5,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      isPresent ? Icons.check_circle : Icons.cancel,
+                                      size: 10,
+                                      color: isPresent ? AppColors.success : AppColors.error,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      isPresent ? 'Present' : 'Absent',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: isPresent ? AppColors.success : AppColors.error,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Text(
+                              '₹${worker.dailyWage.toStringAsFixed(0)}/day',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            if (isMarked && timeStr.isNotEmpty) ...[
+                              const SizedBox(width: 8),
+                              const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                              const SizedBox(width: 2),
+                              Text(
+                                timeStr,
+                                style: const TextStyle(fontSize: 11, color: Colors.grey),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Balance indicator
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        worker.fullName,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        '₹${balance.abs().toStringAsFixed(0)}',
+                        style: TextStyle(
+                          color: balance > 0 ? AppColors.success : (balance < 0 ? AppColors.error : Colors.grey),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
-                      const SizedBox(height: 2),
                       Text(
-                        '₹${worker.dailyWage.toStringAsFixed(0)}/day',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        balance > 0 ? 'To Pay' : (balance < 0 ? 'Advance' : 'Clear'),
+                        style: const TextStyle(fontSize: 10, color: Colors.grey),
                       ),
                     ],
                   ),
-                ),
-                
-                // Balance indicator
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '₹${balance.abs().toStringAsFixed(0)}',
-                      style: TextStyle(
-                        color: balance > 0 ? AppColors.success : (balance < 0 ? AppColors.error : Colors.grey),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      balance > 0 ? 'To Pay' : (balance < 0 ? 'Advance' : 'Clear'),
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
-              ],
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                ],
+              ),
             ),
           ),
         ),
@@ -462,4 +680,3 @@ class _WorkerCard extends ConsumerWidget {
     );
   }
 }
-

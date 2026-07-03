@@ -62,6 +62,8 @@ class ProjectsNotifier extends StateNotifier<List<Project>> {
       if (mounted) {
         state = data.map((e) => Project.fromJson(e)).toList();
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 

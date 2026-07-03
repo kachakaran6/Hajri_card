@@ -121,6 +121,8 @@ class AttendanceNotifier extends StateNotifier<List<Attendance>> {
           state = all;
         }
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 
@@ -157,6 +159,8 @@ class WorkerAttendanceNotifier extends StateNotifier<List<Attendance>> {
       if (mounted) {
         state = data.map((e) => Attendance.fromJson(e)).toList();
       }
+    }, onError: (err) {
+      // Ignore realtime subscribe errors
     });
   }
 
