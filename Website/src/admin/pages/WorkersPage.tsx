@@ -1,17 +1,49 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search } from 'lucide-react';
-import { useAllWorkers, useAllContractors } from '../hooks/useAdminData';
-import { Badge } from '../components/ui';
+import { Search, Plus } from 'lucide-react';
+import { useAllWorkers, useAllContractors, useAddWorkerForContractor } from '../hooks/useAdminData';
+import { Badge, Dialog, Input, Select } from '../components/ui';
 import { format } from 'date-fns';
 
 export const WorkersPage: React.FC = () => {
   const navigate = useNavigate();
   const workers = useAllWorkers();
   const contractors = useAllContractors();
+  const addWorker = useAddWorkerForContractor();
   const [search, setSearch] = useState('');
   const [filterContractor, setFilterContractor] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({
+    contractor_id: '', full_name: '', phone: '', village: '', daily_wage: '',
+    joining_date: new Date().toISOString().split('T')[0], status: 'Active',
+  });
+  const [formError, setFormError] = useState('');
+
+  const handleAddWorker = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError('');
+    if (!form.contractor_id || !form.full_name || !form.daily_wage) { 
+      setFormError('Contractor, Name, and daily wage are required.'); 
+      return; 
+    }
+    try {
+      await addWorker.mutateAsync({
+        contractor_id: form.contractor_id, 
+        full_name: form.full_name.trim(),
+        phone: form.phone || undefined, 
+        village: form.village || undefined,
+        daily_wage: Number(form.daily_wage), 
+        joining_date: form.joining_date, 
+        status: form.status,
+      });
+      setOpen(false);
+      setForm({ contractor_id: '', full_name: '', phone: '', village: '', daily_wage: '', joining_date: new Date().toISOString().split('T')[0], status: 'Active' });
+    } catch (err: any) { 
+      setFormError(err.message || 'Failed to add worker'); 
+    }
+  };
 
   const contractorMap = useMemo(() => {
     const m: Record<string, string> = {};
@@ -71,6 +103,9 @@ export const WorkersPage: React.FC = () => {
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
+            <button className="btn btn-primary btn-sm" onClick={() => setOpen(true)}>
+              <Plus size={13} /> Add Worker
+            </button>
           </div>
         </div>
 
@@ -124,6 +159,44 @@ export const WorkersPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Add Worker Dialog */}
+      <Dialog open={open} onClose={() => setOpen(false)} title="Add Worker">
+        <form onSubmit={handleAddWorker} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {formError && (
+            <div style={{ padding: '10px 12px', background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.2)', borderRadius: 6, fontSize: 12, color: '#dc2626' }}>
+              {formError}
+            </div>
+          )}
+          
+          <Select label="Assign to Contractor *" value={form.contractor_id} onChange={e => setForm(f => ({ ...f, contractor_id: e.target.value }))} required>
+            <option value="">Select a contractor...</option>
+            {(contractors.data || []).map(c => (
+              <option key={c.id} value={c.id}>{c.full_name} {c.company_name ? `(${c.company_name})` : ''}</option>
+            ))}
+          </Select>
+          
+          <Input label="Full Name *" placeholder="Worker full name" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} required />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <Input label="Phone" placeholder="+91 99999 88888" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+            <Input label="Village / City" placeholder="Village or city" value={form.village} onChange={e => setForm(f => ({ ...f, village: e.target.value }))} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <Input label="Daily Wage (₹) *" type="number" placeholder="0" value={form.daily_wage} onChange={e => setForm(f => ({ ...f, daily_wage: e.target.value }))} required min="0" />
+            <Input label="Joining Date" type="date" value={form.joining_date} onChange={e => setForm(f => ({ ...f, joining_date: e.target.value }))} />
+          </div>
+          <Select label="Status" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </Select>
+          <div style={{ display: 'flex', gap: 8, paddingTop: 4 }}>
+            <button type="submit" disabled={addWorker.isPending} className="btn btn-primary" style={{ flex: 1 }}>
+              {addWorker.isPending ? 'Adding...' : 'Add Worker'}
+            </button>
+            <button type="button" className="btn btn-outline" onClick={() => setOpen(false)}>Cancel</button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   );
 };

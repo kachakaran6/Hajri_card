@@ -222,3 +222,33 @@ export const useAddWorkerForContractor = () => {
     },
   });
 };
+
+export const useAddContractor = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (contractor: {
+      email: string;
+      password: string;
+      full_name: string;
+      company_name?: string;
+      phone?: string;
+    }) => {
+      const { data, error } = await supabaseAdmin.auth.admin.createUser({
+        email: contractor.email,
+        password: contractor.password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: contractor.full_name,
+          company_name: contractor.company_name,
+          phone: contractor.phone,
+        },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin', 'contractors'] });
+    },
+  });
+};
+
