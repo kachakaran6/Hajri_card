@@ -43,6 +43,18 @@ export interface AdminTransaction {
   created_at: string;
 }
 
+export interface AdminProject {
+  id: string;
+  contractor_id: string;
+  name: string;
+  location?: string;
+  status: string;
+  start_date?: string;
+  end_date?: string;
+  notes?: string;
+  created_at: string;
+}
+
 export interface AuditActivity {
   id: string;
   type: 'attendance' | 'worker' | 'transaction';
@@ -252,3 +264,46 @@ export const useAddContractor = () => {
   });
 };
 
+export const useProjectsForContractor = (contractorId?: string) =>
+  useQuery({
+    queryKey: ['admin', 'projects', contractorId ?? 'all'],
+    queryFn: async () => {
+      let q = supabaseAdmin
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (contractorId) q = q.eq('contractor_id', contractorId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data as AdminProject[];
+    },
+    staleTime: 30_000,
+    enabled: !!contractorId,
+  });
+
+export const useAddProjectForContractor = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (project: {
+      contractor_id: string;
+      name: string;
+      location?: string;
+      status: string;
+      start_date?: string;
+      end_date?: string;
+      notes?: string;
+    }) => {
+      const { data, error } = await supabaseAdmin
+        .from('projects')
+        .insert(project)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin', 'projects', variables.contractor_id] });
+      qc.invalidateQueries({ queryKey: ['admin', 'projects', 'all'] });
+    },
+  });
+};
