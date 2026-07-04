@@ -28,13 +28,7 @@ class ProjectsScreen extends HookConsumerWidget {
       );
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        context.go('/');
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.projects),
           actions: [
@@ -212,9 +206,7 @@ class ProjectsScreen extends HookConsumerWidget {
                   );
                 },
               ),
-      ),
-    );
-  }
+      );}
 }
 
 class AddProjectSheet extends HookConsumerWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -107,7 +108,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const DashboardScreen(),
+                  child: const TabBackHandler(child: DashboardScreen()),
                 ),
               ),
             ],
@@ -119,7 +120,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const WorkersScreen(),
+                  child: const TabBackHandler(child: WorkersScreen()),
                 ),
                 routes: [
                   GoRoute(
@@ -144,7 +145,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const ProjectsScreen(),
+                  child: const TabBackHandler(child: ProjectsScreen()),
                 ),
               ),
             ],
@@ -156,7 +157,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const ReportsScreen(),
+                  child: const TabBackHandler(child: ReportsScreen()),
                 ),
               ),
             ],
@@ -168,7 +169,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const SettingsScreen(),
+                  child: const TabBackHandler(child: SettingsScreen()),
                 ),
               ),
             ],
@@ -178,3 +179,42 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+class TabBackHandler extends StatelessWidget {
+  final Widget child;
+  const TabBackHandler({super.key, required this.child});
+
+  static DateTime? _lastBackPressTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        final location = GoRouterState.of(context).matchedLocation;
+        if (location != '/') {
+          context.go('/');
+        } else {
+          final now = DateTime.now();
+          if (_lastBackPressTime == null ||
+              now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+            _lastBackPressTime = now;
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('બહાર નીકળવા માટે ફરીથી પાછળ દબાવો'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } else {
+            SystemNavigator.pop();
+          }
+        }
+      },
+      child: child,
+    );
+  }
+}
+

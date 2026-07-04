@@ -64,13 +64,7 @@ class WorkersScreen extends HookConsumerWidget {
       );
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        context.go('/');
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(
             isMultiSelect
@@ -399,9 +393,7 @@ class WorkersScreen extends HookConsumerWidget {
                 onPressed: () => showAddWorkerSheet(),
                 child: const Icon(Icons.add),
               ),
-      ),
-    );
-  }
+      );}
 }
 
 class AddWorkerSheet extends HookConsumerWidget {

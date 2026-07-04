@@ -80,13 +80,7 @@ class ReportsScreen extends HookConsumerWidget {
       );
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        context.go('/');
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.reports)),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -276,7 +270,5 @@ class ReportsScreen extends HookConsumerWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
+      );}
 }

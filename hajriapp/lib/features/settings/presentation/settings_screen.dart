@@ -24,13 +24,7 @@ class SettingsScreen extends HookConsumerWidget {
       await ref.read(authControllerProvider.notifier).signOut();
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        context.go('/');
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
         body: SingleChildScrollView(
           child: Padding(
@@ -166,7 +160,5 @@ class SettingsScreen extends HookConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
+      );}
 }

@@ -36,27 +36,7 @@ class DashboardScreen extends HookConsumerWidget {
 
     final lastBackPressTime = useState<DateTime?>(null);
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) return;
-        final now = DateTime.now();
-        if (lastBackPressTime.value == null ||
-            now.difference(lastBackPressTime.value!) >
-                const Duration(seconds: 2)) {
-          lastBackPressTime.value = now;
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('બહાર નીકળવા માટે ફરીથી પાછળ દબાવો'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-          return;
-        }
-        SystemNavigator.pop();
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.appName),
           actions: [
@@ -99,7 +79,7 @@ class DashboardScreen extends HookConsumerWidget {
                         icon: Icons.how_to_reg,
                         color: AppColors.primary,
                         isDark: isDark,
-                        onTap: () => context.go('/attendance'),
+                        onTap: () => context.push('/attendance'),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -200,9 +180,7 @@ class DashboardScreen extends HookConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
+      );}
 
   Widget _buildMetricCard({
     required BuildContext context,
