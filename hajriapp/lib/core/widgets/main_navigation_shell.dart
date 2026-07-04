@@ -14,16 +14,23 @@ class MainNavigationShell extends StatefulWidget {
 }
 
 class _MainNavigationShellState extends State<MainNavigationShell> {
-  DateTime? _lastBackPressTime;
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final currentIndex = widget.navigationShell.currentIndex;
 
-    return Scaffold(
+    return PopScope(
+      // Allow pop (and let TabBackHandler's PopScope handle it) only when
+      // already on the Home tab (index 0). On all other tabs, intercept.
+      canPop: currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return; // We're on Home — the inner TabBackHandler will run
+        // We're on a non-Home tab — jump back to Home tab
+        widget.navigationShell.goBranch(0, initialLocation: false);
+      },
+      child: Scaffold(
         body: GestureDetector(
           onHorizontalDragEnd: (details) {
-            int currentIndex = widget.navigationShell.currentIndex;
             if (details.primaryVelocity! > 300) {
               // Swipe Right -> Go Left (Previous tab)
               if (currentIndex > 0) {
@@ -48,11 +55,11 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             ),
           ),
           child: BottomNavigationBar(
-            currentIndex: widget.navigationShell.currentIndex,
+            currentIndex: currentIndex,
             onTap: (index) {
               widget.navigationShell.goBranch(
                 index,
-                initialLocation: index == widget.navigationShell.currentIndex,
+                initialLocation: index == currentIndex,
               );
             },
             items: [
@@ -61,7 +68,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 activeIcon: const Icon(Icons.dashboard),
                 label: AppLocalizations.of(
                   context,
-                )!.todaysLabour, // matches dashboard tab
+                )!.todaysLabour,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.people_outline),
@@ -83,11 +90,13 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 activeIcon: const Icon(Icons.settings),
                 label: AppLocalizations.of(
                   context,
-                )!.chooseLanguage.split(' ').last, // Simple locale tab label
+                )!.chooseLanguage.split(' ').last,
               ),
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
+

@@ -120,7 +120,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const TabBackHandler(child: WorkersScreen()),
+                  child: const WorkersScreen(),
                 ),
                 routes: [
                   GoRoute(
@@ -145,7 +145,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const TabBackHandler(child: ProjectsScreen()),
+                  child: const ProjectsScreen(),
                 ),
               ),
             ],
@@ -157,7 +157,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const TabBackHandler(child: ReportsScreen()),
+                  child: const ReportsScreen(),
                 ),
               ),
             ],
@@ -169,7 +169,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => buildPageWithDefaultTransition(
                   context: context,
                   state: state,
-                  child: const TabBackHandler(child: SettingsScreen()),
+                  child: const SettingsScreen(),
                 ),
               ),
             ],

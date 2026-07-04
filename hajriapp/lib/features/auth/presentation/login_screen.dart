@@ -48,6 +48,7 @@ class LoginScreen extends HookConsumerWidget {
                 companyController.text.trim(),
                 phoneController.text.trim(),
               );
+          if (!context.mounted) return;
           messenger.showSnackBar(
             SnackBar(
               content: Text('$successText - Sign up complete!'),
@@ -57,9 +58,13 @@ class LoginScreen extends HookConsumerWidget {
           isSignIn.value = true;
         }
       } catch (e) {
+        if (!context.mounted) return;
         errorMessage.value = e.toString().replaceAll('Exception: ', '');
       } finally {
-        isLoading.value = false;
+        // Only update loading state if the widget is still mounted
+        if (context.mounted) {
+          isLoading.value = false;
+        }
       }
     }
 
@@ -69,9 +74,12 @@ class LoginScreen extends HookConsumerWidget {
       try {
         await ref.read(authControllerProvider.notifier).signInSandbox();
       } catch (e) {
+        if (!context.mounted) return;
         errorMessage.value = e.toString();
       } finally {
-        isLoading.value = false;
+        if (context.mounted) {
+          isLoading.value = false;
+        }
       }
     }
 

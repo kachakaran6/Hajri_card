@@ -68,13 +68,14 @@ class SettingsScreen extends HookConsumerWidget {
                             profile.fullName,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          Text(
-                            profile.phone ?? '+91 99999 88888',
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
+                          if (profile.phone != null && profile.phone!.isNotEmpty)
+                            Text(
+                              profile.phone!,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
